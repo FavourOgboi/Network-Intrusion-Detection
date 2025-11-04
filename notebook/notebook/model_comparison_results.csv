@@ -1,0 +1,6 @@
+Technique,CV Mean,SuccessfulFolds
+Logistic Regression,0.9678787533233676,5
+Random Forest,0.9973975621842067,5
+XGBoost,0.9975090863477755,5
+LightGBM,0.9978437003049863,5
+Neural Network,0.9901108054108259,5

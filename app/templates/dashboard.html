@@ -38,25 +38,67 @@
     </div>
 </div>
 
-<div class="recent-predictions">
-    <h2>Recent Predictions</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Time</th>
-                <th>Result</th>
-                <th>Confidence</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for pred in recent_predictions %}
-            <tr>
-                <td>{{ pred[0] }}</td>
-                <td>{{ pred[1] }}</td>
-                <td>{{ pred[2] }}%</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<div class="dashboard-charts">
+    <h2>Insights</h2>
+    <div style="display: flex; gap: 32px; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 350px;">
+            <canvas id="chart1"></canvas>
+        </div>
+        <div style="flex: 1; min-width: 350px;">
+            <canvas id="chart2"></canvas>
+        </div>
+    </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Chart 1: Threat vs Normal Distribution (Bar Chart)
+    var ctx1 = document.getElementById('chart1').getContext('2d');
+    var threatVsNormal = {{ threat_vs_normal|tojson }};
+    var chart1 = new Chart(ctx1, {
+        type: 'bar',
+        data: {
+            labels: threatVsNormal.map(function(item) { return item.result; }),
+            datasets: [{
+                label: 'Count',
+                data: threatVsNormal.map(function(item) { return item.count; }),
+                backgroundColor: ['#4e79a7', '#f28e2b']
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Threat vs Normal Predictions'
+                }
+            }
+        }
+    });
+
+    // Chart 2: Threats Over Time (Line Chart)
+    var ctx2 = document.getElementById('chart2').getContext('2d');
+    var threatsOverTime = {{ threats_over_time|tojson }};
+    var chart2 = new Chart(ctx2, {
+        type: 'line',
+        data: {
+            labels: threatsOverTime.map(function(item) { return item.day; }),
+            datasets: [{
+                label: 'Threats Detected',
+                data: threatsOverTime.map(function(item) { return item.count; }),
+                fill: false,
+                borderColor: '#e15759',
+                tension: 0.1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Threats Over Time'
+                }
+            }
+        }
+    });
+</script>
 {% endblock %}

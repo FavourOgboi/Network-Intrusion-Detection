@@ -5,29 +5,235 @@
 {% block content %}
 <div class="page-header">
     <h1>Model Performance</h1>
-    <p>Compare all trained models and see feature importance.</p>
+    <p>Detailed analysis of model performance, features, and metrics.</p>
 </div>
 
-<div class="model-table-section">
-    <h2>Model Comparison Table</h2>
-    <table>
-        <thead>
-            <tr>
-                {% for col in columns %}
-                <th>{{ col }}</th>
-                {% endfor %}
-            </tr>
-        </thead>
-        <tbody>
-            {% for row in model_table %}
-            <tr>
-                {% for col in columns %}
-                <td>{{ row[col] }}</td>
-                {% endfor %}
-            </tr>
+<div class="performance-section">
+    <div class="model-info">
+        <h2>Best Model Information</h2>
+        <div class="info-grid">
+            <div class="info-card">
+                <strong>Best Model:</strong> {{ metadata.best_model }}
+            </div>
+            <div class="info-card">
+                <strong>Saved Time:</strong> {{ metadata.saved_time }}
+            </div>
+        </div>
+    </div>
+
+    <div class="features-section">
+        <h2>Selected Features ({{ metadata.selected_features|length }})</h2>
+        <p>These are the original features selected for model training:</p>
+        <div class="feature-list">
+            {% for feature in metadata.selected_features %}
+            <span class="feature-tag">{{ feature }}</span>
             {% endfor %}
-        </tbody>
-    </table>
+        </div>
+    </div>
+
+    <div class="features-section">
+        <h2>Engineered Features ({{ metadata.new_features|length }})</h2>
+        <p>Additional features created through feature engineering:</p>
+        <div class="feature-list">
+            {% for feature in metadata.new_features %}
+            <span class="feature-tag">{{ feature }}</span>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="features-section">
+        <h2>Processed Feature Names ({{ metadata.feature_names|length }})</h2>
+        <p>Final feature names after preprocessing (including one-hot encoded categorical features):</p>
+        <div class="feature-list">
+            {% for feature in metadata.feature_names %}
+            <span class="feature-tag">{{ feature }}</span>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="model-table-section">
+        <h2>Model Performance Comparison</h2>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        {% for col in columns %}
+                        <th>{{ col }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in model_table %}
+                    <tr>
+                        {% for col in columns %}
+                        <td>{{ row[col] }}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="metrics-explanation">
+        <h2>Key Metrics Explanation</h2>
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <h4>Accuracy</h4>
+                <p>Percentage of correct predictions out of total predictions.</p>
+            </div>
+            <div class="metric-card">
+                <h4>Precision</h4>
+                <p>Percentage of predicted threats that are actually threats.</p>
+            </div>
+            <div class="metric-card">
+                <h4>Recall</h4>
+                <p>Percentage of actual threats that were correctly identified.</p>
+            </div>
+            <div class="metric-card">
+                <h4>Specificity</h4>
+                <p>Percentage of normal traffic correctly identified as normal.</p>
+            </div>
+            <div class="metric-card">
+                <h4>F1-Score</h4>
+                <p>Harmonic mean of precision and recall.</p>
+            </div>
+            <div class="metric-card">
+                <h4>ROC-AUC</h4>
+                <p>Area under the Receiver Operating Characteristic curve.</p>
+            </div>
+            <div class="metric-card">
+                <h4>True Positives (TP)</h4>
+                <p>Threats correctly identified as threats.</p>
+            </div>
+            <div class="metric-card">
+                <h4>True Negatives (TN)</h4>
+                <p>Normal traffic correctly identified as normal.</p>
+            </div>
+            <div class="metric-card">
+                <h4>False Positives (FP)</h4>
+                <p>Normal traffic incorrectly flagged as threats.</p>
+            </div>
+            <div class="metric-card">
+                <h4>False Negatives (FN)</h4>
+                <p>Threats that were missed by the model.</p>
+            </div>
+        </div>
+    </div>
 </div>
-<!-- TODO: Add confusion matrices and feature importance charts -->
+
+<style>
+.performance-section {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.model-info {
+    margin-bottom: 2rem;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.info-card {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    border-left: 4px solid #007bff;
+}
+
+.features-section {
+    margin-bottom: 2rem;
+}
+
+.feature-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.feature-tag {
+    background: #e9ecef;
+    color: #495057;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    font-family: monospace;
+}
+
+.model-table-section {
+    margin-bottom: 2rem;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.table th,
+.table td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.metrics-explanation {
+    margin-top: 2rem;
+}
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.metric-card {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-left: 4px solid #28a745;
+}
+
+.metric-card h4 {
+    margin: 0 0 0.5rem 0;
+    color: #495057;
+}
+
+.metric-card p {
+    margin: 0;
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+    .info-grid,
+    .metrics-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .feature-list {
+        justify-content: center;
+    }
+}
+</style>
 {% endblock %}

@@ -9,21 +9,21 @@
 </div>
 
 {% set feature_info = {
-    'duration': {'label': 'Duration (seconds)', 'desc': 'Length of the connection in seconds.', 'type': 'slider', 'min': 0, 'max': 1000, 'step': 1},
-    'src_bytes': {'label': 'Source Bytes', 'desc': 'Bytes sent from source to destination.', 'type': 'slider', 'min': 0, 'max': 100000, 'step': 1},
-    'dst_bytes': {'label': 'Destination Bytes', 'desc': 'Bytes sent from destination to source.', 'type': 'slider', 'min': 0, 'max': 100000, 'step': 1},
-    'num_failed_logins': {'label': 'Failed Logins', 'desc': 'Number of failed login attempts.', 'type': 'slider', 'min': 0, 'max': 10, 'step': 1},
-    'logged_in': {'label': 'Logged In', 'desc': 'Was the login successful? (1 = Yes, 0 = No)', 'type': 'checkbox'},
-    'num_compromised': {'label': 'Compromised Conditions', 'desc': 'Number of compromised conditions.', 'type': 'slider', 'min': 0, 'max': 10, 'step': 1},
-    'root_shell': {'label': 'Root Shell', 'desc': 'Root shell obtained? (1 = Yes, 0 = No)', 'type': 'checkbox'},
-    'su_attempted': {'label': 'su Attempted', 'desc': 'su root command attempted? (1 = Yes, 0 = No)', 'type': 'checkbox'},
-    'num_shells': {'label': 'Number of Shells', 'desc': 'Number of shell prompts.', 'type': 'slider', 'min': 0, 'max': 5, 'step': 1},
-    'count': {'label': 'Count', 'desc': 'Number of connections to the same host in the past 2 seconds.', 'type': 'slider', 'min': 0, 'max': 100, 'step': 1},
-    'srv_count': {'label': 'Service Count', 'desc': 'Number of connections to the same service in the past 2 seconds.', 'type': 'slider', 'min': 0, 'max': 100, 'step': 1},
-    'serror_rate': {'label': 'SYN Error Rate', 'desc': 'Percentage of connections with SYN errors.', 'type': 'slider', 'min': 0, 'max': 1, 'step': 0.01},
-    'rerror_rate': {'label': 'REJ Error Rate', 'desc': 'Percentage of connections with REJ errors.', 'type': 'slider', 'min': 0, 'max': 1, 'step': 0.01},
-    'protocol_type': {'label': 'Protocol Type', 'desc': 'Type of protocol used.', 'type': 'dropdown'},
-    'service': {'label': 'Service', 'desc': 'Network service on the destination.', 'type': 'dropdown'}
+    'duration': {'label': 'Duration (seconds)', 'desc': 'Length of the connection in seconds.', 'type': 'slider', 'min': 0, 'max': 1000, 'step': 1, 'default': 10},
+    'src_bytes': {'label': 'Source Bytes', 'desc': 'Bytes sent from source to destination.', 'type': 'slider', 'min': 0, 'max': 100000, 'step': 1, 'default': 500},
+    'dst_bytes': {'label': 'Destination Bytes', 'desc': 'Bytes sent from destination to source.', 'type': 'slider', 'min': 0, 'max': 100000, 'step': 1, 'default': 800},
+    'num_failed_logins': {'label': 'Failed Logins', 'desc': 'Number of failed login attempts.', 'type': 'slider', 'min': 0, 'max': 10, 'step': 1, 'default': 0},
+    'logged_in': {'label': 'Logged In', 'desc': 'Was the login successful? (1 = Yes, 0 = No)', 'type': 'checkbox', 'default': 1},
+    'num_compromised': {'label': 'Compromised Conditions', 'desc': 'Number of compromised conditions.', 'type': 'slider', 'min': 0, 'max': 10, 'step': 1, 'default': 0},
+    'root_shell': {'label': 'Root Shell', 'desc': 'Root shell obtained? (1 = Yes, 0 = No)', 'type': 'checkbox', 'default': 0},
+    'su_attempted': {'label': 'su Attempted', 'desc': 'su root command attempted? (1 = Yes, 0 = No)', 'type': 'checkbox', 'default': 0},
+    'num_shells': {'label': 'Number of Shells', 'desc': 'Number of shell prompts.', 'type': 'slider', 'min': 0, 'max': 5, 'step': 1, 'default': 0},
+    'count': {'label': 'Count', 'desc': 'Number of connections to the same host in the past 2 seconds.', 'type': 'slider', 'min': 0, 'max': 100, 'step': 1, 'default': 5},
+    'srv_count': {'label': 'Service Count', 'desc': 'Number of connections to the same service in the past 2 seconds.', 'type': 'slider', 'min': 0, 'max': 100, 'step': 1, 'default': 5},
+    'serror_rate': {'label': 'SYN Error Rate', 'desc': 'Percentage of connections with SYN errors.', 'type': 'slider', 'min': 0, 'max': 1, 'step': 0.01, 'default': 0.0},
+    'rerror_rate': {'label': 'REJ Error Rate', 'desc': 'Percentage of connections with REJ errors.', 'type': 'slider', 'min': 0, 'max': 1, 'step': 0.01, 'default': 0.0},
+    'protocol_type': {'label': 'Protocol Type', 'desc': 'Type of protocol used.', 'type': 'dropdown', 'default': 'tcp'},
+    'service': {'label': 'Service', 'desc': 'Network service on the destination.', 'type': 'dropdown', 'default': 'http'}
 } %}
 
 <form method="POST" class="prediction-form">
@@ -36,30 +36,45 @@
     <div class="form-group">
         <label for="{{ feature }}">{{ feature_info[feature].label }}</label>
         {% if feature_info[feature].type == 'slider' %}
-        <input type="range" name="{{ feature }}" id="{{ feature }}" min="{{ feature_info[feature].min }}" max="{{ feature_info[feature].max }}" step="{{ feature_info[feature].step }}" value="{{ input_data[feature] if input_data else feature_info[feature].min }}" title="{{ feature_info[feature].desc }}" data-feature="{{ feature }}">
-        <span class="slider-value" id="{{ feature }}-value" data-feature="{{ feature }}">{{ input_data[feature] if input_data else feature_info[feature].min }}</span>
+        <input type="text" name="{{ feature }}" id="{{ feature }}"
+            value="{{ input_data[feature] if input_data and input_data[feature] is not none else feature_info[feature].default }}"
+            required
+            title="{{ feature_info[feature].desc }}"
+            {% if feature_info[feature].min is defined %}min="{{ feature_info[feature].min }}"{% endif %}
+            {% if feature_info[feature].max is defined %}max="{{ feature_info[feature].max }}"{% endif %}
+            {% if feature_info[feature].step is defined %}step="{{ feature_info[feature].step }}"{% endif %}
+            {% if feature_info[feature].step is defined and feature_info[feature].step == 1 %}pattern="\d*"{% endif %}
+            placeholder="{% if feature_info[feature].min is defined and feature_info[feature].max is defined %}{{ feature_info[feature].min }}-{{ feature_info[feature].max }}{% endif %}">
+        <span style="font-size:0.95em; color:#64748b;">{{ feature_info[feature].desc }}{% if feature_info[feature].min is defined and feature_info[feature].max is defined %} (Allowed: {{ feature_info[feature].min }}-{{ feature_info[feature].max }}){% endif %}</span>
         {% elif feature_info[feature].type == 'checkbox' %}
-        <input type="checkbox" name="{{ feature }}" id="{{ feature }}" value="1" {% if input_data and input_data[feature]|int == 1 %}checked{% endif %} title="{{ feature_info[feature].desc }}">
+        <select name="{{ feature }}" id="{{ feature }}" required title="{{ feature_info[feature].desc }}">
+            <option value="1" {% if not input_data or (input_data and input_data[feature]|int == 1) or (not input_data and feature_info[feature].default == 1) %}selected{% endif %}>Yes</option>
+            <option value="0" {% if input_data and input_data[feature]|int == 0 or (not input_data and feature_info[feature].default == 0) %}selected{% endif %}>No</option>
+        </select>
         <span style="font-size:0.95em; color:#64748b;">{{ feature_info[feature].desc }}</span>
         {% elif feature == 'protocol_type' %}
         <select name="protocol_type" id="protocol_type" required title="{{ feature_info[feature].desc }}">
-            <option value="">Select Protocol</option>
-            <option value="tcp">TCP</option>
-            <option value="udp">UDP</option>
-            <option value="icmp">ICMP</option>
+            <option value="icmp" {% if not input_data or (input_data and input_data['protocol_type'] == 'icmp') or (not input_data and feature_info[feature].default == 'icmp') %}selected{% endif %}>ICMP</option>
+            <option value="tcp" {% if input_data and input_data['protocol_type'] == 'tcp' or (not input_data and feature_info[feature].default == 'tcp') %}selected{% endif %}>TCP</option>
+            <option value="udp" {% if input_data and input_data['protocol_type'] == 'udp' or (not input_data and feature_info[feature].default == 'udp') %}selected{% endif %}>UDP</option>
         </select>
         <span style="font-size:0.95em; color:#64748b;">{{ feature_info[feature].desc }}</span>
         {% elif feature == 'service' %}
         <select name="service" id="service" required title="{{ feature_info[feature].desc }}">
-            <option value="">Select Service</option>
-            <option value="http">HTTP</option>
-            <option value="ftp">FTP</option>
-            <option value="smtp">SMTP</option>
-            <option value="domain_u">DNS</option>
+            <option value="http" {% if not input_data or (input_data and input_data['service'] == 'http') or (not input_data and feature_info[feature].default == 'http') %}selected{% endif %}>http (Web traffic)</option>
+            <option value="ftp" {% if input_data and input_data['service'] == 'ftp' or (not input_data and feature_info[feature].default == 'ftp') %}selected{% endif %}>ftp (File transfer)</option>
+            <option value="ftp_data" {% if input_data and input_data['service'] == 'ftp_data' or (not input_data and feature_info[feature].default == 'ftp_data') %}selected{% endif %}>ftp_data (FTP data channel)</option>
+            <option value="smtp" {% if input_data and input_data['service'] == 'smtp' or (not input_data and feature_info[feature].default == 'smtp') %}selected{% endif %}>smtp (Mail sending)</option>
+            <option value="telnet" {% if input_data and input_data['service'] == 'telnet' or (not input_data and feature_info[feature].default == 'telnet') %}selected{% endif %}>telnet (Remote terminal)</option>
+            <option value="private" {% if input_data and input_data['service'] == 'private' or (not input_data and feature_info[feature].default == 'private') %}selected{% endif %}>private (Unknown/private)</option>
+            <option value="domain_u" {% if input_data and input_data['service'] == 'domain_u' or (not input_data and feature_info[feature].default == 'domain_u') %}selected{% endif %}>domain_u (DNS UDP)</option>
+            <option value="ssh" {% if input_data and input_data['service'] == 'ssh' or (not input_data and feature_info[feature].default == 'ssh') %}selected{% endif %}>ssh (Secure shell)</option>
+            <option value="eco_i" {% if input_data and input_data['service'] == 'eco_i' or (not input_data and feature_info[feature].default == 'eco_i') %}selected{% endif %}>eco_i (Echo service)</option>
+            <option value="other" {% if input_data and input_data['service'] == 'other' or (not input_data and feature_info[feature].default == 'other') %}selected{% endif %}>other (Miscellaneous)</option>
         </select>
         <span style="font-size:0.95em; color:#64748b;">{{ feature_info[feature].desc }}</span>
         {% else %}
-        <input type="text" name="{{ feature }}" id="{{ feature }}" value="{{ input_data[feature] if input_data else '' }}" required title="{{ feature_info[feature].desc }}">
+        <input type="text" name="{{ feature }}" id="{{ feature }}" value="{{ input_data[feature] if input_data else feature_info[feature].default }}" required title="{{ feature_info[feature].desc }}">
         <span style="font-size:0.95em; color:#64748b;">{{ feature_info[feature].desc }}</span>
         {% endif %}
     </div>
@@ -68,25 +83,22 @@
 </form>
 
 {% if prediction %}
-<div class="results-card">
-    <h2>Prediction Results</h2>
-    <div class="result-display">
-        <div class="result-icon">
-            {% if prediction == 'normal' %}🛡️{% else %}⚠️{% endif %}
-        </div>
-        <div class="result-text">
-            <h3>{{ prediction|upper }}</h3>
-            <p>Confidence: {{ confidence }}%</p>
-            <p>Model Used: {{ model_used }}</p>
-        </div>
-    </div>
+<div class="result-box">
+  <div class="result-title">Prediction Results</div>
+  <div class="result-status"
+       style="color: {{ 'red' if prediction|upper == 'THREAT' else '#22c55e' }};">
+    {{ prediction|upper }}
+  </div>
+  <div class="result-confidence">Confidence: {{ confidence }}%</div>
+  <div class="result-model">Model Used: {{ model_used }}</div>
+  <div class="result-icon">
+    {% if prediction|upper == 'THREAT' %}⚠️{% else %}✅{% endif %}
+  </div>
 </div>
 {% else %}
-<div class="results-card">
-    <h2>Prediction Results</h2>
-    <div class="result-text">
-        <p>No prediction yet. Please enter input and submit to get a result.</p>
-    </div>
+<div class="result-box" style="background: #1e293b;">
+  <div class="result-title">Prediction Results</div>
+  <div class="result-confidence" style="color:#e0e7ef;">No prediction yet. Please enter input and submit to get a result.</div>
 </div>
 {% endif %}
 
@@ -156,23 +168,46 @@ document.addEventListener('DOMContentLoaded', function() {
 .btn-primary:hover {
     background-color: #0056b3;
 }
-.results-card {
-    background: #151B2B;
-    border-radius: 12px;
-    padding: 1.5rem 2rem;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-    margin-top: 2em;
+/* Prediction Result Box */
+.result-box {
+  background: linear-gradient(145deg, #0f2027, #203a43, #2c5364);
+  color: #fff;
+  border-radius: 20px;
+  padding: 40px;
+  text-align: center;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+  margin: 40px auto;
+  max-width: 600px;
+  transition: transform 0.3s ease;
 }
-.result-display {
-    display: flex;
-    align-items: center;
-    gap: 2em;
+.result-box:hover {
+  transform: translateY(-5px);
+}
+.result-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.result-status {
+  font-size: 2.8rem;
+  font-weight: 800;
+  margin: 20px 0 10px 0;
+  color: #ffcc00;
+}
+.result-confidence {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+.result-model {
+  font-size: 1rem;
+  opacity: 0.85;
 }
 .result-icon {
-    font-size: 2.5em;
-}
-.result-text h3 {
-    margin: 0 0 0.5em 0;
+  font-size: 2.5rem;
+  color: #ffcc00;
+  margin-top: 10px;
 }
 @media (max-width: 900px) {
     .prediction-form .form-group {

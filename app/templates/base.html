@@ -44,13 +44,13 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ url_for('model_performance_view') }}" class="nav-link {% if request.endpoint == 'model_performance_view' %}active{% endif %}">
+                <a href="{{ url_for('model_performance.model_performance_view') }}" class="nav-link {% if request.endpoint == 'model_performance.model_performance_view' %}active{% endif %}">
                     <span class="nav-icon">📈</span>
                     <span>Performance</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ url_for('history_view') }}" class="nav-link {% if request.endpoint == 'history_view' %}active{% endif %}">
+<a href="{{ url_for('history.history_view') }}" class="nav-link {% if request.endpoint == 'history.history_view' %}active{% endif %}">
                     <span class="nav-icon">📜</span>
                     <span>History</span>
                 </a>

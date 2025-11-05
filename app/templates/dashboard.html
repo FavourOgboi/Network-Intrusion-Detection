@@ -8,6 +8,8 @@
     <p>Welcome back, {{ current_user.username }}!</p>
 </div>
 
+{# Model Insight section removed as requested #}
+
 <div class="stats-grid">
     <div class="stat-card">
         <div class="stat-icon">📊</div>
@@ -20,12 +22,17 @@
         <div class="stat-label">Threats Detected</div>
     </div>
     <div class="stat-card">
+        <div class="stat-icon">📈</div>
+        <div class="stat-value">{{ avg_confidence | round(2) }}%</div>
+        <div class="stat-label">Avg. Confidence</div>
+    </div>
+    <div class="stat-card">
         <div class="stat-icon">🛡️</div>
         <div class="stat-value">{{ best_model }}</div>
         <div class="stat-label">Model Used</div>
     </div>
     <div class="stat-card">
-        <div class="stat-icon">✅</div>
+        <div class="stat-icon">🎯</div>
         <div class="stat-value">{{ accuracy }}</div>
         <div class="stat-label">Model Accuracy</div>
     </div>

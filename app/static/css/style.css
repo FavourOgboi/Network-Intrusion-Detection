@@ -75,19 +75,21 @@
   margin-bottom: 2rem;
 }
 
+/* Stat cards: always 1 row, never wrap */
 .stats-grid {
   display: flex;
+  flex-wrap: nowrap;
   gap: 2rem;
   margin-bottom: 2rem;
 }
-
 .stat-card {
+  flex: 1 1 0;
+  min-width: 140px;
   background: #151B2B;
   border-radius: 12px;
-  padding: 1.5rem 2rem;
+  padding: 1.5rem 1rem;
   box-shadow: 0 2px 12px rgba(0,0,0,0.08);
   text-align: center;
-  flex: 1;
 }
 
 .stat-icon {
@@ -110,6 +112,7 @@
 .recent-predictions, .model-table-section, .history-table-section, .profile-section, .about-section {
   margin-top: 2rem;
 }
+/* No special background for .recent-predictions by default */
 
 table {
   width: 100%;

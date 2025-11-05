@@ -43,7 +43,7 @@ def register():
         db.session.commit()
         flash('Registration successful. Please log in.', 'success')
         return redirect(url_for('auth.login'))
-    return render_template('register.html')
+    return render_template('login.html')
 
 @auth.route('/logout')
 @login_required

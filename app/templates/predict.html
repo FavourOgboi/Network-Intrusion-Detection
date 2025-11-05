@@ -8,21 +8,62 @@
     <p>Enter network features to detect potential threats</p>
 </div>
 
+{% set feature_info = {
+    'duration': {'label': 'Duration (seconds)', 'desc': 'Length of the connection in seconds.', 'type': 'slider', 'min': 0, 'max': 1000, 'step': 1},
+    'src_bytes': {'label': 'Source Bytes', 'desc': 'Bytes sent from source to destination.', 'type': 'slider', 'min': 0, 'max': 100000, 'step': 1},
+    'dst_bytes': {'label': 'Destination Bytes', 'desc': 'Bytes sent from destination to source.', 'type': 'slider', 'min': 0, 'max': 100000, 'step': 1},
+    'num_failed_logins': {'label': 'Failed Logins', 'desc': 'Number of failed login attempts.', 'type': 'slider', 'min': 0, 'max': 10, 'step': 1},
+    'logged_in': {'label': 'Logged In', 'desc': 'Was the login successful? (1 = Yes, 0 = No)', 'type': 'checkbox'},
+    'num_compromised': {'label': 'Compromised Conditions', 'desc': 'Number of compromised conditions.', 'type': 'slider', 'min': 0, 'max': 10, 'step': 1},
+    'root_shell': {'label': 'Root Shell', 'desc': 'Root shell obtained? (1 = Yes, 0 = No)', 'type': 'checkbox'},
+    'su_attempted': {'label': 'su Attempted', 'desc': 'su root command attempted? (1 = Yes, 0 = No)', 'type': 'checkbox'},
+    'num_shells': {'label': 'Number of Shells', 'desc': 'Number of shell prompts.', 'type': 'slider', 'min': 0, 'max': 5, 'step': 1},
+    'count': {'label': 'Count', 'desc': 'Number of connections to the same host in the past 2 seconds.', 'type': 'slider', 'min': 0, 'max': 100, 'step': 1},
+    'srv_count': {'label': 'Service Count', 'desc': 'Number of connections to the same service in the past 2 seconds.', 'type': 'slider', 'min': 0, 'max': 100, 'step': 1},
+    'serror_rate': {'label': 'SYN Error Rate', 'desc': 'Percentage of connections with SYN errors.', 'type': 'slider', 'min': 0, 'max': 1, 'step': 0.01},
+    'rerror_rate': {'label': 'REJ Error Rate', 'desc': 'Percentage of connections with REJ errors.', 'type': 'slider', 'min': 0, 'max': 1, 'step': 0.01},
+    'protocol_type': {'label': 'Protocol Type', 'desc': 'Type of protocol used.', 'type': 'dropdown'},
+    'service': {'label': 'Service', 'desc': 'Network service on the destination.', 'type': 'dropdown'}
+} %}
+
 <form method="POST" class="prediction-form">
-    <div class="form-grid">
-        {% for feature in selected_features %}
-        <div class="form-group">
-            <label>{{ feature.replace('_', ' ').title() }}</label>
-            <input type="text"
-                   name="{{ feature }}"
-                   value="{{ input_data[feature] if input_data else '' }}"
-                   required
-                   title="{{ feature_tooltips.get(feature, 'Enter a value for this feature.') }}"
-                   class="tooltip-input">
-            <span class="tooltip-text">{{ feature_tooltips.get(feature, 'Provide a valid input for this feature.') }}</span>
-        </div>
-        {% endfor %}
+    {% set required_features = [
+        'duration', 'src_bytes', 'dst_bytes', 'num_failed_logins', 'logged_in',
+        'num_compromised', 'root_shell', 'su_attempted', 'num_shells', 'count',
+        'srv_count', 'serror_rate', 'rerror_rate', 'protocol_type', 'service'
+    ] %}
+    {% for feature in required_features %}
+    <div class="form-group">
+        <label for="{{ feature }}">{{ feature_info[feature].label }}</label>
+        {% if feature_info[feature].type == 'slider' %}
+        <input type="range" name="{{ feature }}" id="{{ feature }}" min="{{ feature_info[feature].min }}" max="{{ feature_info[feature].max }}" step="{{ feature_info[feature].step }}" value="{{ input_data[feature] if input_data else feature_info[feature].min }}" title="{{ feature_info[feature].desc }}" data-feature="{{ feature }}">
+        <span class="slider-value" id="{{ feature }}-value" data-feature="{{ feature }}">{{ input_data[feature] if input_data else feature_info[feature].min }}</span>
+        {% elif feature_info[feature].type == 'checkbox' %}
+        <input type="checkbox" name="{{ feature }}" id="{{ feature }}" value="1" {% if input_data and input_data[feature]|int == 1 %}checked{% endif %} title="{{ feature_info[feature].desc }}">
+        <span style="font-size:0.95em; color:#64748b;">{{ feature_info[feature].desc }}</span>
+        {% elif feature == 'protocol_type' %}
+        <select name="protocol_type" id="protocol_type" required title="{{ feature_info[feature].desc }}">
+            <option value="">Select Protocol</option>
+            <option value="tcp">TCP</option>
+            <option value="udp">UDP</option>
+            <option value="icmp">ICMP</option>
+        </select>
+        <span style="font-size:0.95em; color:#64748b;">{{ feature_info[feature].desc }}</span>
+        {% elif feature == 'service' %}
+        <select name="service" id="service" required title="{{ feature_info[feature].desc }}">
+            <option value="">Select Service</option>
+            <option value="http">HTTP</option>
+            <option value="ftp">FTP</option>
+            <option value="smtp">SMTP</option>
+            <option value="domain_u">DNS</option>
+        </select>
+        <span style="font-size:0.95em; color:#64748b;">{{ feature_info[feature].desc }}</span>
+        {% else %}
+        <input type="text" name="{{ feature }}" id="{{ feature }}" value="{{ input_data[feature] if input_data else '' }}" required title="{{ feature_info[feature].desc }}">
+        <span style="font-size:0.95em; color:#64748b;">{{ feature_info[feature].desc }}</span>
+        {% endif %}
     </div>
+    {% endfor %}
     <button type="submit" class="btn-primary">Predict</button>
 </form>
 
@@ -49,60 +90,99 @@
 </div>
 {% endif %}
 
-{% if best_model_info %}
-<div class="model-info-card" style="margin-top:2em; border:1px solid #e0e0e0; border-radius:8px; padding:1em; background:#fafbfc;">
-    <h2>Model Info</h2>
-    <p><strong>Best Model:</strong> {{ best_model_info['Model'] }}</p>
-    <ul>
-        <li><strong>Accuracy:</strong> {{ best_model_info['Accuracy'] }}</li>
-        <li><strong>Precision:</strong> {{ best_model_info['Precision'] }}</li>
-        <li><strong>Recall:</strong> {{ best_model_info['Recall'] }}</li>
-        <li><strong>F1-Score:</strong> {{ best_model_info['F1-Score'] }}</li>
-        <li><strong>ROC-AUC:</strong> {{ best_model_info['ROC-AUC'] }}</li>
-        <li><strong>False Positives:</strong> {{ best_model_info['False Positives'] }}</li>
-        <li><strong>False Negatives:</strong> {{ best_model_info['False Negatives'] }}</li>
-    </ul>
-    <small>Model performance is based on recent evaluation. For more details, see the Performance page.</small>
-</div>
-{% endif %}
-{% endblock %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Update all slider value displays
+    document.querySelectorAll('input[type="range"][data-feature]').forEach(function(slider) {
+        var feature = slider.getAttribute('data-feature');
+        var output = document.querySelector('.slider-value[data-feature="' + feature + '"]');
+        if (output) {
+            slider.addEventListener('input', function() {
+                output.textContent = this.value;
+            });
+        }
+    });
+});
+</script>
 
 <style>
-.tooltip-input {
-    position: relative;
-    display: inline-block;
+.prediction-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: space-between;
+    margin-bottom: 2em;
 }
-
-.tooltip-input:hover .tooltip-text {
-    visibility: visible;
-    opacity: 1;
+.prediction-form .form-group {
+    flex: 1 1 calc(33% - 1rem);
+    min-width: 180px;
+    display: flex;
+    flex-direction: column;
 }
-
-.tooltip-text {
-    visibility: hidden;
-    width: 200px;
-    background-color: #555;
-    color: #fff;
-    text-align: center;
-    border-radius: 5px;
-    padding: 5px;
-    position: absolute;
-    z-index: 1;
-    bottom: 125%;
-    left: 50%;
-    margin-left: -100px;
-    opacity: 0;
-    transition: opacity 0.3s;
+.prediction-form label {
+    font-weight: 600;
+    margin-bottom: 0.3rem;
 }
-
-.tooltip-text::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #555 transparent transparent transparent;
+.prediction-form input,
+.prediction-form select {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    background: #f8fafc;
+    color: #1e293b;
+}
+.prediction-form input[type="range"] {
+    width: 100%;
+    margin-bottom: 0.2em;
+}
+.slider-value {
+    font-size: 0.95em;
+    color: #0ea5e9;
+    margin-bottom: 0.2em;
+}
+.btn-primary {
+    margin-top: 1rem;
+    padding: 0.7rem 1.5rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+.results-card {
+    background: #151B2B;
+    border-radius: 12px;
+    padding: 1.5rem 2rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    margin-top: 2em;
+}
+.result-display {
+    display: flex;
+    align-items: center;
+    gap: 2em;
+}
+.result-icon {
+    font-size: 2.5em;
+}
+.result-text h3 {
+    margin: 0 0 0.5em 0;
+}
+@media (max-width: 900px) {
+    .prediction-form .form-group {
+        flex: 1 1 100%;
+        min-width: 100px;
+    }
+    .result-display {
+        flex-direction: column;
+        gap: 1em;
+    }
 }
 </style>
+{% endblock %}

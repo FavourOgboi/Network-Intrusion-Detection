@@ -3,15 +3,6 @@
 {% block title %}Login - NIDS{% endblock %}
 
 {% block content %}
-{% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-    <div class="flash-messages">
-      {% for category, message in messages %}
-        <div class="alert alert-{{ category }}">{{ message }}</div>
-      {% endfor %}
-    </div>
-  {% endif %}
-{% endwith %}
 <div class="login-split">
     <!-- Left: Animation Section -->
     <div class="login-left">
@@ -23,9 +14,9 @@
             <h1 class="tagline">Real-time Network Threat Detection</h1>
             <ul class="features-list">
                 <li><span class="icon">🛡️</span> ML-Powered Detection</li>
-                <li><span class="icon">📊</span> Real-time Analytics</li>
-                <li><span class="icon">🔍</span> Traffic Visualization</li>
-                <li><span class="icon">⚡</span> Instant Alerts</li>
+                <li><span class="icon">📊</span> Analytics Dashboard</li>
+                <li><span class="icon">�</span> Performance Metrics</li>
+                <li><span class="icon">🔒</span> Secure User Management</li>
             </ul>
         </div>
     </div>

@@ -8,7 +8,7 @@ from pathlib import Path
 
 def handler(event, context):
     # Load artifacts (relative to this file or absolute)
-    ARTIFACT_DIR = Path(__file__).parent.parent.parent / "notebook" / "artifacts"
+    ARTIFACT_DIR = Path(__file__).parent.parent.parent / "artifact"
     model = joblib.load(ARTIFACT_DIR / "best_model.pkl")
     preprocessor = joblib.load(ARTIFACT_DIR / "preprocessor.pkl")
     le = joblib.load(ARTIFACT_DIR / "label_encoder.pkl")

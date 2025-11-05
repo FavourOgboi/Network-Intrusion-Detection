@@ -3,35 +3,458 @@
 {% block title %}About - NIDS{% endblock %}
 
 {% block content %}
-    <div class="page-header">
-        <img src="{{ url_for('static', filename='images/images.jpg') }}" alt="NIDS Logo" style="width: 80px; margin-bottom: 1em;">
-        <h1>About This Application</h1>
-        <p>Network Intrusion Detection System (NIDS) – Final Year Project, FUPRE</p>
-    </div>
-<div class="about-section">
-    <div class="about-card">
-        <h2>🎯 Purpose</h2>
-        <p>This application is a Network Intrusion Detection System (NIDS) designed to analyze network traffic data and detect potential security threats or intrusions using machine learning models.</p>
-    </div>
-    <div class="about-card">
-        <h2>🤖 Machine Learning Model</h2>
-        <p><strong>Model Used:</strong> {{ metadata.best_model if metadata else "Random Forest" }}</p>
-        <p><strong>Last Trained:</strong> {{ metadata.saved_time if metadata else "N/A" }}</p>
-        <p>The system uses advanced machine learning algorithms to classify network traffic as normal or potentially malicious.</p>
-    </div>
-    <div class="about-card">
-        <h2>👨‍💻 Technology Stack</h2>
-        <ul>
-            <li>Backend: Flask (Python)</li>
-            <li>ML Library: Scikit-learn, XGBoost, LightGBM</li>
-            <li>Database: SQLite</li>
-            <li>Frontend: HTML, CSS, JavaScript</li>
-        </ul>
-    </div>
-    <div class="about-footer">
-        <p style="text-align: center; color: #64748B; margin-top: 2rem;">
-            Built as a Final Year Project | Network Security & Machine Learning
-        </p>
+<div class="page-header">
+    <div class="hero-section">
+        <div class="logo-container">
+            <div class="logo-glow">
+                <img src="{{ url_for('static', filename='images/images.jpg') }}" alt="NIDS Logo" class="hero-logo">
+            </div>
+        </div>
+        <div class="hero-content">
+            <h1 class="hero-title">About NIDS</h1>
+            <p class="hero-subtitle">Network Intrusion Detection System</p>
+            <p class="hero-description">Final Year Project | Federal University of Petroleum Resources, Effurun</p>
+        </div>
     </div>
 </div>
+
+<div class="about-section">
+    <!-- Mission Statement -->
+    <div class="mission-section">
+        <div class="mission-card">
+            <div class="mission-icon">🎯</div>
+            <h2>Our Mission</h2>
+            <p>To develop an intelligent Network Intrusion Detection System that leverages machine learning to protect networks from cyber threats, providing real-time analysis and accurate threat detection for enhanced cybersecurity.</p>
+        </div>
+    </div>
+
+    <!-- Feature Cards -->
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="card-icon">🛡️</div>
+            <h3>Advanced Detection</h3>
+            <p>Utilizes state-of-the-art machine learning algorithms to identify and classify network intrusions with high accuracy and minimal false positives.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="card-icon">🤖</div>
+            <h3>AI-Powered Analysis</h3>
+            <p>Employs XGBoost and other ML models trained on comprehensive network traffic datasets to provide intelligent threat assessment.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="card-icon">📊</div>
+            <h3>Real-time Monitoring</h3>
+            <p>Continuous analysis of network traffic patterns with instant alerts and detailed reporting for proactive security management.</p>
+        </div>
+    </div>
+
+    <!-- Technical Details -->
+    <div class="tech-section">
+        <h2>Technical Specifications</h2>
+        <div class="tech-grid">
+            <div class="tech-card">
+                <div class="tech-header">
+                    <div class="tech-icon">🤖</div>
+                    <h3>Machine Learning Model</h3>
+                </div>
+                <div class="tech-content">
+                    <div class="tech-item">
+                        <span class="label">Primary Model:</span>
+                        <span class="value">{{ metadata.best_model if metadata else "XGBoost" }}</span>
+                    </div>
+                    <div class="tech-item">
+                        <span class="label">Training Date:</span>
+                        <span class="value">{{ metadata.saved_time if metadata else "2025-11-04" }}</span>
+                    </div>
+                    <div class="tech-item">
+                        <span class="label">Accuracy:</span>
+                        <span class="value">99.76%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tech-card">
+                <div class="tech-header">
+                    <div class="tech-icon">⚙️</div>
+                    <h3>Technology Stack</h3>
+                </div>
+                <div class="tech-content">
+                    <div class="tech-stack">
+                        <div class="stack-category">
+                            <h4>Backend</h4>
+                            <ul>
+                                <li>Flask (Python Web Framework)</li>
+                                <li>SQLite Database</li>
+                            </ul>
+                        </div>
+                        <div class="stack-category">
+                            <h4>Machine Learning</h4>
+                            <ul>
+                                <li>Scikit-learn</li>
+                                <li>XGBoost</li>
+                                <li>LightGBM</li>
+                            </ul>
+                        </div>
+                        <div class="stack-category">
+                            <h4>Frontend</h4>
+                            <ul>
+                                <li>HTML5 & CSS3</li>
+                                <li>JavaScript & Chart.js</li>
+                                <li>Bootstrap Framework</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Project Info -->
+    <div class="project-info">
+        <div class="project-card">
+            <div class="project-header">
+                <div class="project-icon">🎓</div>
+                <h3>Academic Project</h3>
+            </div>
+            <p>This Network Intrusion Detection System was developed as a Final Year Project for the Department of Computer Science at the Federal University of Petroleum Resources, Effurun (FUPRE).</p>
+            <p>The project demonstrates the practical application of machine learning techniques in cybersecurity, combining theoretical knowledge with real-world problem-solving.</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="about-footer">
+        <div class="footer-content">
+            <p>Built with ❤️ for Network Security Research</p>
+            <p class="footer-subtitle">Federal University of Petroleum Resources, Effurun | 2025</p>
+        </div>
+    </div>
+</div>
+
+<style>
+.about-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.page-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 4rem 2rem;
+    margin: -2rem -2rem 3rem -2rem;
+    color: white;
+    text-align: center;
+}
+
+.hero-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.logo-container {
+    position: relative;
+}
+
+.logo-glow {
+    position: relative;
+    display: inline-block;
+}
+
+.hero-logo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    box-shadow: 0 0 40px rgba(255, 255, 255, 0.3);
+    border: 4px solid rgba(255, 255, 255, 0.2);
+}
+
+.hero-title {
+    font-size: 3rem;
+    font-weight: 700;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.hero-subtitle {
+    font-size: 1.5rem;
+    margin: 0.5rem 0;
+    opacity: 0.9;
+}
+
+.hero-description {
+    font-size: 1.1rem;
+    margin: 0;
+    opacity: 0.8;
+}
+
+.mission-section {
+    margin-bottom: 3rem;
+}
+
+.mission-card {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+    padding: 3rem 2rem;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(245, 87, 108, 0.3);
+}
+
+.mission-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.mission-card h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.mission-card p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.feature-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #f0f0f0;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.card-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.feature-card h3 {
+    color: #333;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+.feature-card p {
+    color: #666;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.tech-section {
+    margin-bottom: 3rem;
+}
+
+.tech-section h2 {
+    text-align: center;
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 2rem;
+}
+
+.tech-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+}
+
+.tech-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    border: 1px solid #f0f0f0;
+}
+
+.tech-header {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    color: white;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.tech-icon {
+    font-size: 1.8rem;
+}
+
+.tech-header h3 {
+    margin: 0;
+    font-size: 1.3rem;
+}
+
+.tech-content {
+    padding: 1.5rem;
+}
+
+.tech-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.tech-item:last-child {
+    border-bottom: none;
+}
+
+.label {
+    font-weight: 600;
+    color: #666;
+}
+
+.value {
+    color: #333;
+    font-weight: 500;
+}
+
+.tech-stack {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1.5rem;
+}
+
+.stack-category h4 {
+    color: #333;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+.stack-category ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.stack-category li {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+    padding-left: 1rem;
+    position: relative;
+}
+
+.stack-category li:before {
+    content: "▸";
+    color: #4facfe;
+    position: absolute;
+    left: 0;
+}
+
+.project-info {
+    margin-bottom: 3rem;
+}
+
+.project-card {
+    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    padding: 3rem 2rem;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(168, 237, 234, 0.3);
+}
+
+.project-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.project-icon {
+    font-size: 2.5rem;
+}
+
+.project-header h3 {
+    color: #333;
+    margin: 0;
+    font-size: 1.8rem;
+}
+
+.project-card p {
+    color: #555;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto 1rem auto;
+}
+
+.about-footer {
+    text-align: center;
+    padding: 3rem 0;
+    border-top: 1px solid #e9ecef;
+}
+
+.footer-content {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.footer-content p {
+    font-size: 1.2rem;
+    color: #666;
+    margin: 0 0 0.5rem 0;
+}
+
+.footer-subtitle {
+    color: #999;
+    font-size: 1rem;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .page-header {
+        padding: 2rem 1rem;
+        margin: -2rem -1rem 2rem -1rem;
+    }
+
+    .hero-title {
+        font-size: 2rem;
+    }
+
+    .hero-section {
+        gap: 1rem;
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .tech-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .tech-stack {
+        grid-template-columns: 1fr;
+    }
+
+    .mission-card {
+        padding: 2rem 1rem;
+    }
+
+    .mission-card h2 {
+        font-size: 1.5rem;
+    }
+}
+</style>
 {% endblock %}

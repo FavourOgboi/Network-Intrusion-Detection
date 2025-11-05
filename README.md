@@ -82,10 +82,10 @@ A sophisticated machine learning-powered web application for detecting network i
 
 ```
 nids-system/
-├── fly.toml              # Fly.io configuration
-├── Dockerfile            # Container definition
-├── .dockerignore         # Build exclusions
-├── app/                  # Flask application
+├── netlify.toml          # Netlify configuration
+├── requirements.txt      # Python dependencies
+├── Procfile             # Heroku process file
+├── app/                 # Flask application
 │   ├── templates/       # Jinja2 HTML templates
 │   ├── static/          # CSS, JS, images
 │   └── app.py           # Main application
@@ -93,8 +93,10 @@ nids-system/
 │   ├── best_model.pkl
 │   ├── preprocessor.pkl
 │   └── metadata.json
+├── netlify/             # Serverless functions
+│   └── functions/
+│       └── predict.py
 ├── utils/               # Database utilities
-├── requirements.txt     # Python dependencies
 └── README.md           # Project documentation
 ```
 
@@ -117,15 +119,13 @@ nids-system/
 
 ## 🚀 Deployment
 
-### Fly.io (Recommended)
-```bash
-# Install Fly CLI
-fly auth login
-rm fly.toml  # Clean start
-fly launch   # Follow prompts
-fly deploy
-fly open     # View your live app
-```
+### Netlify (Recommended)
+1. **Connect Repository**: Link your GitHub repo to Netlify
+2. **Build Settings**:
+   - Command: `pip install -r requirements.txt && python app/app.py`
+   - Directory: `app/static`
+3. **Environment Variables**: `PYTHON_VERSION = 3.9`
+4. **Deploy**: Auto-deploy on git push
 
 ### Local Development
 ```bash

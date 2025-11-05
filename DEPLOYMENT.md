@@ -1,73 +1,72 @@
-# 🚀 Fly.io Deployment Guide for NIDS
+# 🚀 Netlify Deployment Guide for NIDS
 
-## Why Fly.io?
+## Why Netlify?
 
-Fly.io is the **perfect platform** for your Network Intrusion Detection System because:
+Netlify is the **perfect platform** for your Network Intrusion Detection System because:
 
-- ✅ **Container-native** - Perfect for Flask applications
-- ✅ **SQLite support** - Your database works without changes
-- ✅ **Global deployment** - Fast access worldwide
+- ✅ **Static site hosting** - Perfect for your Flask templates
+- ✅ **Serverless functions** - ML predictions via API
 - ✅ **Free tier** - Generous limits for development
-- ✅ **Persistent storage** - Your data stays with the app
-- ✅ **Simple scaling** - Easy to upgrade when needed
+- ✅ **Git integration** - Auto-deploy on push
+- ✅ **CDN** - Fast global delivery
+- ✅ **Custom domains** - Professional URLs
 
 ## 🛠️ Prerequisites
 
-1. **Fly.io Account**: Sign up at [fly.io](https://fly.io)
-2. **Fly CLI**: Install the command-line tool
-
-### Install Fly CLI
-
-**Windows (PowerShell):**
-```powershell
-# Using PowerShell
-iwr https://fly.io/install.ps1 -useb | iex
-```
-
-**Or download from:** https://fly.io/docs/getting-started/installing-flyctl/
+1. **Netlify Account**: Sign up at [netlify.com](https://netlify.com)
+2. **GitHub Repository**: Your code pushed to GitHub
 
 ## 🚀 Quick Deployment
 
-### Step 1: Authenticate
-```bash
-fly auth login
+### Step 1: Connect Repository
+1. Go to [netlify.com](https://netlify.com)
+2. Click "New site from Git"
+3. Connect your GitHub repository
+4. Select the main branch
+
+### Step 2: Build Settings
+```
+Build command: pip install -r requirements.txt && python app/app.py
+Publish directory: app/static
 ```
 
-### Step 2: Clean Start (Important!)
-```bash
-# Remove any existing fly.toml to avoid conflicts
-rm fly.toml
+### Step 3: Environment Variables
+Add in Netlify dashboard:
 ```
-
-### Step 3: Launch Your App (Skip Auto-Update)
-```bash
-# If you get auto-update errors, skip it:
-fly launch --no-update-check
+PYTHON_VERSION = 3.11
+FLASK_ENV = production
 ```
-**Or use the older version:**
-```bash
-fly launch
-# When it asks to update, say "No"
-```
-
-**Follow the prompts:**
-- **App Name**: Choose unique name (e.g., `your-nids-app-123`)
-- **Region**: Select closest to your users (e.g., `lax` for US West)
-- **Organization**: Choose your account
-- **Dockerfile**: It will detect your Dockerfile automatically
-- **Database**: No (we're using SQLite)
 
 ### Step 4: Deploy
-```bash
-fly deploy
+- Netlify will auto-deploy when you push to GitHub
+- Your site will be live at: `https://your-site-name.netlify.app`
+
+## ⚠️ **Build Error Solutions:**
+
+### Error: "scikit-learn build failed"
+**Solution:** Create `runtime.txt` to force Python 3.11:
+```txt
+# runtime.txt
+python-3.11.4
 ```
 
-### Step 5: Open Your App
-```bash
-fly open
+**And update requirements.txt:**
+```txt
+Flask==2.3.3
+Werkzeug==2.3.7
+scikit-learn==1.2.2  # Use 1.2.2 instead of 1.3.0
+pandas==1.5.3        # Use 1.5.3 instead of 2.0.3
+numpy==1.24.3
+xgboost==1.7.6
+joblib==1.3.2
+python-dotenv==1.0.0
 ```
 
-**Your NIDS will be live at:** `https://your-app-name.fly.dev`
+### Error: "Build timeout"
+**Solution:** Reduce build time by using pre-compiled packages
+
+### Error: "Memory limit exceeded"
+**Solution:** Use lighter dependencies or upgrade Netlify plan
 
 ## ⚠️ **If You Get Errors:**
 

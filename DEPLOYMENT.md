@@ -33,25 +33,58 @@ iwr https://fly.io/install.ps1 -useb | iex
 fly auth login
 ```
 
-### Step 2: Launch Your App
+### Step 2: Clean Start (Important!)
+```bash
+# Remove any existing fly.toml to avoid conflicts
+rm fly.toml
+```
+
+### Step 3: Launch Your App
 ```bash
 fly launch
 ```
-- Choose your app name (e.g., `nids-app`)
-- Select region (choose closest to your users)
-- Accept default configuration
+**Follow the prompts:**
+- **App Name**: Choose unique name (e.g., `your-nids-app-123`)
+- **Region**: Select closest to your users (e.g., `lax` for US West)
+- **Organization**: Choose your account
+- **Dockerfile**: It will detect your Dockerfile automatically
+- **Database**: No (we're using SQLite)
 
-### Step 3: Deploy
+### Step 4: Deploy
 ```bash
 fly deploy
 ```
 
-### Step 4: Open Your App
+### Step 5: Open Your App
 ```bash
 fly open
 ```
 
 **Your NIDS will be live at:** `https://your-app-name.fly.dev`
+
+## ⚠️ **If You Get Errors:**
+
+### Error: "launch manifest was created for a app, but this is a app"
+**Solution:**
+```bash
+# Delete conflicting files
+rm fly.toml
+rm -rf .fly
+
+# Try again
+fly launch
+```
+
+### Error: "App name already taken"
+**Solution:**
+- Choose a different app name when prompted
+- Or use: `fly launch --name your-unique-app-name`
+
+### Error: "Docker build failed"
+**Solution:**
+- Check your Dockerfile syntax
+- Ensure all dependencies are in requirements.txt
+- Try: `fly deploy --local-only` for testing
 
 ## 📁 Configuration Files Created
 

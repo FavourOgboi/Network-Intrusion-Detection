@@ -115,6 +115,25 @@ nids-system/
 - Interactive prediction forms
 - Historical data visualization
 
+## 🚀 Deployment
+
+### Fly.io (Recommended)
+```bash
+# Install Fly CLI
+fly auth login
+rm fly.toml  # Clean start
+fly launch   # Follow prompts
+fly deploy
+fly open     # View your live app
+```
+
+### Local Development
+```bash
+pip install -r requirements.txt
+python app/app.py
+# Visit: http://localhost:5000
+```
+
 ## 📈 Usage
 
 1. **Register/Login** to access the system

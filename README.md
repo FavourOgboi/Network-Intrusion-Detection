@@ -73,22 +73,29 @@ A sophisticated machine learning-powered web application for detecting network i
 - **Bootstrap** - Responsive design framework
 - **Chart.js** - Data visualization
 
+### Deployment
+- **Fly.io** - Container-native deployment platform
+- **Docker** - Containerization
+- **Git** - Version control and deployment
+
 ## 📁 Project Structure
 
 ```
 nids-system/
-├── app/                    # Flask application
-│   ├── templates/         # Jinja2 HTML templates
-│   ├── static/           # CSS, JS, images
-│   └── app.py            # Main application
-├── artifact/             # ML model artifacts
+├── fly.toml              # Fly.io configuration
+├── Dockerfile            # Container definition
+├── .dockerignore         # Build exclusions
+├── app/                  # Flask application
+│   ├── templates/       # Jinja2 HTML templates
+│   ├── static/          # CSS, JS, images
+│   └── app.py           # Main application
+├── artifact/            # ML model artifacts
 │   ├── best_model.pkl
 │   ├── preprocessor.pkl
 │   └── metadata.json
-├── netlify/              # Serverless functions
-├── utils/                # Database utilities
-├── requirements.txt      # Python dependencies
-└── README.md            # Project documentation
+├── utils/               # Database utilities
+├── requirements.txt     # Python dependencies
+└── README.md           # Project documentation
 ```
 
 ## 🎯 Key Components

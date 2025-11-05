@@ -39,10 +39,17 @@ fly auth login
 rm fly.toml
 ```
 
-### Step 3: Launch Your App
+### Step 3: Launch Your App (Skip Auto-Update)
+```bash
+# If you get auto-update errors, skip it:
+fly launch --no-update-check
+```
+**Or use the older version:**
 ```bash
 fly launch
+# When it asks to update, say "No"
 ```
+
 **Follow the prompts:**
 - **App Name**: Choose unique name (e.g., `your-nids-app-123`)
 - **Region**: Select closest to your users (e.g., `lax` for US West)

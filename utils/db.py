@@ -18,6 +18,17 @@ def init_db():
             role TEXT DEFAULT 'user'
         )
     """)
+    c.execute("""
+        CREATE TABLE IF NOT EXISTS predictions (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            input_data TEXT NOT NULL,
+            prediction TEXT NOT NULL,
+            confidence REAL NOT NULL,
+            timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users (id)
+        )
+    """)
     conn.commit()
     conn.close()
 
@@ -46,3 +57,17 @@ def verify_user(username, password):
     if row and row[0] == hash_password(password):
         return True, row[1]
     return False, None
+
+def save_prediction(user_id, input_data, prediction, confidence):
+    conn = get_connection()
+    c = conn.cursor()
+    try:
+        c.execute("""
+            INSERT INTO predictions (user_id, input_data, prediction, confidence)
+            VALUES (?, ?, ?, ?)
+        """, (user_id, input_data, prediction, confidence))
+        conn.commit()
+    except sqlite3.Error as e:
+        print(f"Error saving prediction: {e}")
+    finally:
+        conn.close()

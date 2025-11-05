@@ -13,7 +13,13 @@
         {% for feature in selected_features %}
         <div class="form-group">
             <label>{{ feature.replace('_', ' ').title() }}</label>
-            <input type="text" name="{{ feature }}" value="{{ input_data[feature] if input_data else '' }}" required>
+            <input type="text"
+                   name="{{ feature }}"
+                   value="{{ input_data[feature] if input_data else '' }}"
+                   required
+                   title="{{ feature_tooltips.get(feature, 'Enter a value for this feature.') }}"
+                   class="tooltip-input">
+            <span class="tooltip-text">{{ feature_tooltips.get(feature, 'Provide a valid input for this feature.') }}</span>
         </div>
         {% endfor %}
     </div>
@@ -34,5 +40,69 @@
         </div>
     </div>
 </div>
+{% else %}
+<div class="results-card">
+    <h2>Prediction Results</h2>
+    <div class="result-text">
+        <p>No prediction yet. Please enter input and submit to get a result.</p>
+    </div>
+</div>
+{% endif %}
+
+{% if best_model_info %}
+<div class="model-info-card" style="margin-top:2em; border:1px solid #e0e0e0; border-radius:8px; padding:1em; background:#fafbfc;">
+    <h2>Model Info</h2>
+    <p><strong>Best Model:</strong> {{ best_model_info['Model'] }}</p>
+    <ul>
+        <li><strong>Accuracy:</strong> {{ best_model_info['Accuracy'] }}</li>
+        <li><strong>Precision:</strong> {{ best_model_info['Precision'] }}</li>
+        <li><strong>Recall:</strong> {{ best_model_info['Recall'] }}</li>
+        <li><strong>F1-Score:</strong> {{ best_model_info['F1-Score'] }}</li>
+        <li><strong>ROC-AUC:</strong> {{ best_model_info['ROC-AUC'] }}</li>
+        <li><strong>False Positives:</strong> {{ best_model_info['False Positives'] }}</li>
+        <li><strong>False Negatives:</strong> {{ best_model_info['False Negatives'] }}</li>
+    </ul>
+    <small>Model performance is based on recent evaluation. For more details, see the Performance page.</small>
+</div>
 {% endif %}
 {% endblock %}
+
+<style>
+.tooltip-input {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip-input:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+.tooltip-text {
+    visibility: hidden;
+    width: 200px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -100px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+</style>

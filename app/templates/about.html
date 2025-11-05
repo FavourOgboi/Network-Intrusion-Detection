@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}About - NIDS{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <img src="{{ url_for('static', filename='images/images.jpg') }}" alt="NIDS Logo" style="width: 80px; margin-bottom: 1em;">
+        <h1>About This Application</h1>
+        <p>Network Intrusion Detection System (NIDS) – Final Year Project, FUPRE</p>
+    </div>
+<div class="about-section">
+    <div class="about-card">
+        <h2>🎯 Purpose</h2>
+        <p>This application is a Network Intrusion Detection System (NIDS) designed to analyze network traffic data and detect potential security threats or intrusions using machine learning models.</p>
+    </div>
+    <div class="about-card">
+        <h2>🤖 Machine Learning Model</h2>
+        <p><strong>Model Used:</strong> {{ metadata.best_model if metadata else "Random Forest" }}</p>
+        <p><strong>Last Trained:</strong> {{ metadata.saved_time if metadata else "N/A" }}</p>
+        <p>The system uses advanced machine learning algorithms to classify network traffic as normal or potentially malicious.</p>
+    </div>
+    <div class="about-card">
+        <h2>👨‍💻 Technology Stack</h2>
+        <ul>
+            <li>Backend: Flask (Python)</li>
+            <li>ML Library: Scikit-learn, XGBoost, LightGBM</li>
+            <li>Database: SQLite</li>
+            <li>Frontend: HTML, CSS, JavaScript</li>
+        </ul>
+    </div>
+    <div class="about-footer">
+        <p style="text-align: center; color: #64748B; margin-top: 2rem;">
+            Built as a Final Year Project | Network Security & Machine Learning
+        </p>
+    </div>
+</div>
+{% endblock %}

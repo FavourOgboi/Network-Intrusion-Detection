@@ -2,35 +2,97 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login - Network Intrusion Detection</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Login | Network Intrusion Detection System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
 </head>
-<body>
-    <div class="auth-container">
-        <div class="auth-card">
-            <h2>Sign in</h2>
-            {% with messages = get_flashed_messages(with_categories=true) %}
-              {% if messages %}
-                <ul class="flashes">
-                  {% for category, message in messages %}
-                    <li class="flash {{ category }}">{{ message }}</li>
-                  {% endfor %}
-                </ul>
-              {% endif %}
-            {% endwith %}
-            <form method="post" action="{{ url_for('login') }}">
-                <label>Username
-                    <input type="text" name="username" required>
-                </label>
-                <label>Password
-                    <input type="password" name="password" required>
-                </label>
-                <div class="auth-actions">
-                    <button type="submit" class="btn-primary">Sign in</button>
+<body class="login-bg">
+    <div class="login-split">
+        <!-- Left: Animation Section -->
+        <div class="login-left">
+            <canvas id="network-canvas" class="network-canvas"></canvas>
+            <div class="login-hero">
+                <div class="logo-glow">
+                    <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="NIDS Logo" class="logo-img">
                 </div>
-            </form>
-            <p class="muted">If you don't have an account, the app administrator can create one using the registration helper.</p>
+                <h1 class="tagline">Real-time Network Threat Detection</h1>
+                <ul class="features-list">
+                    <li><span class="icon">🛡️</span> ML-Powered Detection</li>
+                    <li><span class="icon">📊</span> Real-time Analytics</li>
+                    <li><span class="icon">🔍</span> Traffic Visualization</li>
+                    <li><span class="icon">⚡</span> Instant Alerts</li>
+                </ul>
+            </div>
+        </div>
+        <!-- Right: Auth Card -->
+        <div class="login-right">
+            <div class="auth-card glassmorphic">
+                <div class="tab-toggle">
+                    <button id="login-tab" class="active">Login</button>
+                    <button id="register-tab">Register</button>
+                </div>
+                <form id="login-form" class="auth-form" method="post" action="/login">
+                    <div class="form-group floating-label">
+                        <input type="text" name="username" id="login-username" required>
+                        <label for="login-username">Username</label>
+                    </div>
+                    <div class="form-group floating-label">
+                        <input type="password" name="password" id="login-password" required>
+                        <label for="login-password">Password</label>
+                    </div>
+                    <div class="form-options">
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="remember">
+                            <span class="checkmark"></span>
+                            Remember me
+                        </label>
+                        <a href="#" class="forgot-link">Forgot password?</a>
+                    </div>
+                    <button type="submit" class="btn-primary animated-btn">Sign In</button>
+                </form>
+                <form id="register-form" class="auth-form" method="post" action="/register" style="display:none;">
+                    <div class="form-group floating-label">
+                        <input type="text" name="username" id="register-username" required>
+                        <label for="register-username">Username</label>
+                    </div>
+                    <div class="form-group floating-label">
+                        <input type="email" name="email" id="register-email" required>
+                        <label for="register-email">Email</label>
+                    </div>
+                    <div class="form-group floating-label">
+                        <input type="password" name="password" id="register-password" required>
+                        <label for="register-password">Password</label>
+                        <div id="password-strength"></div>
+                    </div>
+                    <div class="form-group floating-label">
+                        <input type="password" name="confirm_password" id="register-confirm" required>
+                        <label for="register-confirm">Confirm Password</label>
+                    </div>
+                    <button type="submit" class="btn-primary animated-btn">Register</button>
+                </form>
+                <div class="social-login">
+                    <!-- Optional: Social login buttons -->
+                </div>
+            </div>
         </div>
     </div>
+    <script src="{{ url_for('static', filename='login.js') }}"></script>
+    <script src="{{ url_for('static', filename='network.js') }}"></script>
+    <script>
+        // Tab toggle logic
+        document.getElementById('login-tab').onclick = function() {
+            this.classList.add('active');
+            document.getElementById('register-tab').classList.remove('active');
+            document.getElementById('login-form').style.display = '';
+            document.getElementById('register-form').style.display = 'none';
+        };
+        document.getElementById('register-tab').onclick = function() {
+            this.classList.add('active');
+            document.getElementById('login-tab').classList.remove('active');
+            document.getElementById('login-form').style.display = 'none';
+            document.getElementById('register-form').style.display = '';
+        };
+    </script>
 </body>
 </html>

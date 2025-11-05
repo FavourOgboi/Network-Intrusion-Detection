@@ -1,0 +1,79 @@
+:root {
+    --primary: #0A192F;
+    --secondary: #64FFDA;
+    --accent: #2196F3;
+    --warning: #FFA726;
+    --danger: #EF5350;
+    --success: #66BB6A;
+    --background-gradient: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+    --text-light: #E2E8F0;
+    --text-white: #FFFFFF;
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    --blur: blur(10px);
+}
+
+body.login-bg {
+    min-height: 100vh;
+    background: var(--background-gradient);
+    color: var(--text-light);
+    font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+    overflow-x: hidden;
+}
+
+a, a:visited {
+    color: var(--accent);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+a:hover {
+    color: var(--secondary);
+}
+
+.btn-primary {
+    background: linear-gradient(90deg, var(--accent), var(--secondary));
+    color: var(--text-white);
+    border: none;
+    border-radius: 8px;
+    padding: 0.75em 2em;
+    font-weight: 600;
+    font-size: 1.1em;
+    box-shadow: var(--shadow);
+    transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
+    cursor: pointer;
+    outline: none;
+}
+.btn-primary:hover, .btn-primary:focus {
+    background: linear-gradient(90deg, var(--secondary), var(--accent));
+    box-shadow: 0 0 16px var(--accent), var(--shadow);
+    transform: scale(1.03);
+}
+
+.glassmorphic {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow);
+    backdrop-filter: var(--blur);
+    border-radius: 20px;
+}
+
+.logo-glow .logo-img {
+    width: 80px;
+    filter: drop-shadow(0 0 16px var(--secondary));
+    margin-bottom: 1em;
+}
+
+.animated-btn {
+    box-shadow: 0 0 8px var(--accent);
+    transition: box-shadow 0.3s, transform 0.2s;
+}
+.animated-btn:hover {
+    box-shadow: 0 0 24px var(--secondary);
+    transform: scale(1.05);
+}
+
+::-webkit-input-placeholder { color: var(--text-light); }
+::-moz-placeholder { color: var(--text-light); }
+:-ms-input-placeholder { color: var(--text-light); }
+::placeholder { color: var(--text-light); }

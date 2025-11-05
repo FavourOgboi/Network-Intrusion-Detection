@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Predict - NIDS{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Network Traffic Prediction</h1>
+    <p>Enter network features to detect potential threats</p>
+</div>
+
+<form method="POST" class="prediction-form">
+    <div class="form-grid">
+        {% for feature in selected_features %}
+        <div class="form-group">
+            <label>{{ feature.replace('_', ' ').title() }}</label>
+            <input type="text" name="{{ feature }}" value="{{ input_data[feature] if input_data else '' }}" required>
+        </div>
+        {% endfor %}
+    </div>
+    <button type="submit" class="btn-primary">Predict</button>
+</form>
+
+{% if prediction %}
+<div class="results-card">
+    <h2>Prediction Results</h2>
+    <div class="result-display">
+        <div class="result-icon">
+            {% if prediction == 'normal' %}🛡️{% else %}⚠️{% endif %}
+        </div>
+        <div class="result-text">
+            <h3>{{ prediction|upper }}</h3>
+            <p>Confidence: {{ confidence }}%</p>
+            <p>Model Used: {{ model_used }}</p>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

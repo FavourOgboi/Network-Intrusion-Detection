@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Model Performance - NIDS{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Model Performance</h1>
+    <p>Compare all trained models and see feature importance.</p>
+</div>
+
+<div class="model-table-section">
+    <h2>Model Comparison Table</h2>
+    <table>
+        <thead>
+            <tr>
+                {% for col in columns %}
+                <th>{{ col }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in model_table %}
+            <tr>
+                {% for col in columns %}
+                <td>{{ row[col] }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<!-- TODO: Add confusion matrices and feature importance charts -->
+{% endblock %}

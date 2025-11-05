@@ -1,150 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Network Intrusion Detection Dashboard</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-</head>
-<body>
-    <header class="nav">
-        <div class="nav-left">
-            <h1>NIDS</h1>
-            <small class="muted">Network Intrusion Detection System</small>
-        </div>
-        <div class="nav-right">
-            {% if session.get('user') %}
-                <span class="user">Signed in as <strong>{{ session.get('user') }}</strong></span>
-                <a class="btn-ghost" href="{{ url_for('logout') }}">Sign out</a>
-            {% else %}
-                <a class="btn-primary" href="{{ url_for('login') }}">Sign in</a>
-            {% endif %}
-        </div>
-    </header>
-    <main>
-        <h2>Dashboard</h2>
-        <div class="metrics">
-            <div class="metric-card">
-                <h3>Total Predictions (test)</h3>
-                <p>{{ total_preds|default('N/A') }}</p>
-            </div>
-            <div class="metric-card">
-                <h3>Anomalies Detected</h3>
-                <p>{{ anomalies|default('N/A') }}</p>
-            </div>
-            <div class="metric-card">
-                <h3>Model Accuracy (on test)</h3>
-                <p>{{ acc_val|default('N/A') }}</p>
-            </div>
-            {% if f1_val is defined %}
-            <div class="metric-card">
-                <h3>F1-score</h3>
-                <p>{{ f1_val|default('N/A') }}</p>
-            </div>
-            {% endif %}
-            {% if roc_auc_val is defined %}
-            <div class="metric-card">
-                <h3>ROC-AUC</h3>
-                <p>{{ roc_auc_val|default('N/A') }}</p>
-            </div>
-            {% endif %}
-        </div>
-        <section>
-            <h3>Prediction Distribution</h3>
-            <div id="pred-dist"></div>
-        </section>
-        <section>
-            <h3>Confusion Matrix & Metrics</h3>
-            <div id="cm-plot"></div>
-        </section>
-        <section>
-            <h3>Feature Importance (if available)</h3>
-            <div id="feat-imp"></div>
-        </section>
-        <section>
-            <h3>Enter Input for Prediction</h3>
-            <form method="post" action="/" class="predict-form">
-                <div class="form-row">
-                    <label>src_bytes: <input type="number" name="src_bytes" required></label>
-                    <label>dst_bytes: <input type="number" name="dst_bytes" required></label>
-                </div>
-                <div class="form-row">
-                    <label>same_srv_rate: <input type="number" step="any" name="same_srv_rate" required></label>
-                    <label>dst_host_same_srv_rate: <input type="number" step="any" name="dst_host_same_srv_rate" required></label>
-                </div>
-                <div class="form-row">
-                    <label>dst_host_srv_count: <input type="number" name="dst_host_srv_count" required></label>
-                    <label>logged_in: 
-                        <select name="logged_in" required>
-                            <option value="0">No</option>
-                            <option value="1">Yes</option>
-                        </select>
-                    </label>
-                </div>
-                <div class="form-row">
-                    <label>dst_host_same_src_port_rate: <input type="number" step="any" name="dst_host_same_src_port_rate" required></label>
-                    <label>dst_host_diff_srv_rate: <input type="number" step="any" name="dst_host_diff_srv_rate" required></label>
-                </div>
-                <div class="form-row">
-                    <label>diff_srv_rate: <input type="number" step="any" name="diff_srv_rate" required></label>
-                    <label>count: <input type="number" name="count" required></label>
-                </div>
-                <div class="form-row">
-                    <label>duration: <input type="number" name="duration" required></label>
-                    <label>num_failed_logins: <input type="number" name="num_failed_logins" required></label>
-                </div>
-                <div class="form-row">
-                    <label>num_compromised: <input type="number" name="num_compromised" required></label>
-                    <label>root_shell: <input type="number" name="root_shell" required></label>
-                </div>
-                <div class="form-row">
-                    <label>su_attempted: <input type="number" name="su_attempted" required></label>
-                    <label>num_shells: <input type="number" name="num_shells" required></label>
-                </div>
-                <div class="form-row">
-                    <label>srv_count: <input type="number" name="srv_count" required></label>
-                    <label>serror_rate: <input type="number" step="any" name="serror_rate" required></label>
-                </div>
-                <div class="form-row">
-                    <label>rerror_rate: <input type="number" step="any" name="rerror_rate" required></label>
-                    <label>protocol_type: 
-                        <select name="protocol_type" required>
-                            <option value="tcp">tcp</option>
-                            <option value="udp">udp</option>
-                            <option value="icmp">icmp</option>
-                        </select>
-                    </label>
-                </div>
-                <div class="form-row">
-                    <label>service: <input type="text" name="service" required></label>
-                </div>
-                <button type="submit">Get Prediction</button>
-            </form>
-            {% if prediction is defined %}
-            <div class="prediction-result">
-                <h4>Predicted Result:</h4>
-                <p>{{ prediction }}</p>
-            </div>
-            {% endif %}
-        </section>
-    </main>
-    <footer>
-        <hr>
-        <center><small>Network Intrusion Detection System &copy; 2025</small></center>
-    </footer>
-    <script>
-    {% if pred_dist_plot is defined %}
-    var predDistFig = {{ pred_dist_plot|tojson }};
-    Plotly.newPlot('pred-dist', predDistFig.data, predDistFig.layout);
-    {% endif %}
-    {% if cm_plot is defined %}
-    var cmFig = {{ cm_plot|tojson }};
-    Plotly.newPlot('cm-plot', cmFig.data, cmFig.layout);
-    {% endif %}
-    {% if feat_imp_plot is defined %}
-    var featImpFig = {{ feat_imp_plot|tojson }};
-    Plotly.newPlot('feat-imp', featImpFig.data, featImpFig.layout);
-    {% endif %}
-    </script>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}Dashboard - NIDS{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Dashboard</h1>
+    <p>Welcome back, {{ current_user.username }}!</p>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-icon">📊</div>
+        <div class="stat-value">{{ total_predictions }}</div>
+        <div class="stat-label">Total Predictions</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">⚠️</div>
+        <div class="stat-value">{{ threats_detected }}</div>
+        <div class="stat-label">Threats Detected</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">🛡️</div>
+        <div class="stat-value">{{ best_model }}</div>
+        <div class="stat-label">Model Used</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">✅</div>
+        <div class="stat-value">{{ accuracy }}</div>
+        <div class="stat-label">Model Accuracy</div>
+    </div>
+</div>
+
+<div class="recent-predictions">
+    <h2>Recent Predictions</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Time</th>
+                <th>Result</th>
+                <th>Confidence</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pred in recent_predictions %}
+            <tr>
+                <td>{{ pred[0] }}</td>
+                <td>{{ pred[1] }}</td>
+                <td>{{ pred[2] }}%</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

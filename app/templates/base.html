@@ -13,6 +13,79 @@
     <link rel="favicon" href="{{ url_for('static', filename='images/images.jpg') }}" type="image/x-icon">
 </head>
 <body>
+    <!-- Mobile Menu Toggle -->
+    <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle navigation menu">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+    </button>
+
+    <!-- Overlay for mobile menu -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Left Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <img src="{{ url_for('static', filename='images/images.jpg') }}" alt="Logo" width="60">
+                <h2>NIDS</h2>
+                <p style="color: #64748B; font-size: 0.85rem;">Network Security</p>
+            </div>
+            <button class="sidebar-close" id="sidebarClose" aria-label="Close navigation menu">
+                ✕
+            </button>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="{{ url_for('home') }}" class="nav-link {% if request.endpoint == 'home' %}active{% endif %}">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-text">Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ url_for('predict_view') }}" class="nav-link {% if request.endpoint == 'predict_view' %}active{% endif %}">
+                    <span class="nav-icon">🔍</span>
+                    <span class="nav-text">Predict</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ url_for('model_performance.model_performance_view') }}" class="nav-link {% if request.endpoint == 'model_performance.model_performance_view' %}active{% endif %}">
+                    <span class="nav-icon">📈</span>
+                    <span class="nav-text">Performance</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ url_for('history.history_view') }}" class="nav-link {% if request.endpoint == 'history.history_view' %}active{% endif %}">
+                    <span class="nav-icon">📜</span>
+                    <span class="nav-text">History</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ url_for('profile_view') }}" class="nav-link {% if request.endpoint == 'profile_view' %}active{% endif %}">
+                    <span class="nav-icon">👤</span>
+                    <span class="nav-text">Profile</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ url_for('about') }}" class="nav-link {% if request.endpoint == 'about' %}active{% endif %}">
+                    <span class="nav-icon">ℹ️</span>
+                    <span class="nav-text">About</span>
+                </a>
+            </li>
+            <li class="nav-item logout-item">
+                <a href="{{ url_for('logout') }}" class="nav-link">
+                    <span class="nav-icon">🚪</span>
+                    <span class="nav-text">Logout</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="main-content" id="mainContent">
+        {% block content %}{% endblock %}
+    </main>
+
     <!-- Toast/Flash Messages -->
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
@@ -23,62 +96,6 @@
         </div>
       {% endif %}
     {% endwith %}
-    <!-- Left Sidebar -->
-    <nav class="sidebar">
-        <div class="sidebar-logo">
-            <img src="{{ url_for('static', filename='images/images.jpg') }}" alt="Logo" width="60">
-            <h2>NIDS</h2>
-            <p style="color: #64748B; font-size: 0.85rem;">Network Security</p>
-        </div>
-        <ul class="nav-menu">
-            <li class="nav-item">
-                <a href="{{ url_for('home') }}" class="nav-link {% if request.endpoint == 'home' %}active{% endif %}">
-                    <span class="nav-icon">📊</span>
-                    <span>Dashboard</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ url_for('predict_view') }}" class="nav-link {% if request.endpoint == 'predict_view' %}active{% endif %}">
-                    <span class="nav-icon">🔍</span>
-                    <span>Predict</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ url_for('model_performance.model_performance_view') }}" class="nav-link {% if request.endpoint == 'model_performance.model_performance_view' %}active{% endif %}">
-                    <span class="nav-icon">📈</span>
-                    <span>Performance</span>
-                </a>
-            </li>
-            <li class="nav-item">
-<a href="{{ url_for('history.history_view') }}" class="nav-link {% if request.endpoint == 'history.history_view' %}active{% endif %}">
-                    <span class="nav-icon">📜</span>
-                    <span>History</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ url_for('profile_view') }}" class="nav-link {% if request.endpoint == 'profile_view' %}active{% endif %}">
-                    <span class="nav-icon">👤</span>
-                    <span>Profile</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ url_for('about') }}" class="nav-link {% if request.endpoint == 'about' %}active{% endif %}">
-                    <span class="nav-icon">ℹ️</span>
-                    <span>About</span>
-                </a>
-            </li>
-            <li class="nav-item" style="margin-top: 2rem;">
-                <a href="{{ url_for('logout') }}" class="nav-link">
-                    <span class="nav-icon">🚪</span>
-                    <span>Logout</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-    <!-- Main Content Area (Right Side) -->
-    <main class="main-content">
-        {% block content %}{% endblock %}
-    </main>
 </body>
 </html>
 
@@ -173,8 +190,57 @@
 }
 </style>
 <script>
-  // Auto-dismiss toasts after 3.5 seconds
-  window.addEventListener('DOMContentLoaded', function() {
+  // Mobile menu functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const sidebar = document.getElementById('sidebar');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+    const sidebarClose = document.getElementById('sidebarClose');
+    const mainContent = document.getElementById('mainContent');
+
+    // Toggle mobile menu
+    function toggleMobileMenu() {
+      sidebar.classList.toggle('show');
+      sidebarOverlay.classList.toggle('show');
+    }
+
+    // Close mobile menu
+    function closeMobileMenu() {
+      sidebar.classList.remove('show');
+      sidebarOverlay.classList.remove('show');
+    }
+
+    // Event listeners
+    if (mobileMenuToggle) {
+      mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+    }
+
+    if (sidebarClose) {
+      sidebarClose.addEventListener('click', closeMobileMenu);
+    }
+
+    if (sidebarOverlay) {
+      sidebarOverlay.addEventListener('click', closeMobileMenu);
+    }
+
+    // Close menu when clicking on nav links (mobile)
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+      link.addEventListener('click', function() {
+        if (window.innerWidth <= 768) {
+          closeMobileMenu();
+        }
+      });
+    });
+
+    // Close menu on window resize if desktop
+    window.addEventListener('resize', function() {
+      if (window.innerWidth > 768) {
+        closeMobileMenu();
+      }
+    });
+
+    // Auto-dismiss toasts after 3.5 seconds
     setTimeout(function() {
       document.querySelectorAll('.toast').forEach(function(toast) {
         toast.style.opacity = '0';

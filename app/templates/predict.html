@@ -118,105 +118,158 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <style>
+/* ===== PREDICTION FORM ===== */
 .prediction-form {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    justify-content: space-between;
-    margin-bottom: 2em;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
 }
+
 .prediction-form .form-group {
-    flex: 1 1 calc(33% - 1rem);
-    min-width: 180px;
     display: flex;
     flex-direction: column;
 }
+
 .prediction-form label {
     font-weight: 600;
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.5rem;
+    color: #CBD5E1;
 }
+
 .prediction-form input,
 .prediction-form select {
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 0.9rem;
-    background: #f8fafc;
-    color: #1e293b;
+    padding: 0.75rem;
+    border: 2px solid #334155;
+    border-radius: 8px;
+    font-size: 1rem;
+    background: #151B2B;
+    color: #E2E8F0;
+    transition: all 0.3s ease;
 }
+
+.prediction-form input:focus,
+.prediction-form select:focus {
+    outline: none;
+    border-color: #00FFF0;
+    box-shadow: 0 0 0 3px rgba(0, 255, 240, 0.1);
+}
+
 .prediction-form input[type="range"] {
     width: 100%;
-    margin-bottom: 0.2em;
+    margin-bottom: 0.5rem;
 }
+
 .slider-value {
-    font-size: 0.95em;
-    color: #0ea5e9;
-    margin-bottom: 0.2em;
+    font-size: 0.95rem;
+    color: #00FFF0;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
 }
-.btn-primary {
-    margin-top: 1rem;
-    padding: 0.7rem 1.5rem;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 1.1em;
-    font-weight: bold;
-    transition: background 0.2s;
-}
-.btn-primary:hover {
-    background-color: #0056b3;
-}
-/* Prediction Result Box */
+
+/* ===== PREDICTION RESULT BOX ===== */
 .result-box {
-  background: linear-gradient(145deg, #0f2027, #203a43, #2c5364);
-  color: #fff;
-  border-radius: 20px;
-  padding: 40px;
-  text-align: center;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
-  margin: 40px auto;
-  max-width: 600px;
-  transition: transform 0.3s ease;
+    background: linear-gradient(145deg, #0f2027, #203a43, #2c5364);
+    color: #fff;
+    border-radius: 16px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+    margin: 2rem auto;
+    max-width: 600px;
+    border: 1px solid rgba(0, 255, 240, 0.2);
+    transition: all 0.3s ease;
 }
+
 .result-box:hover {
-  transform: translateY(-5px);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
 }
+
 .result-title {
-  font-size: 1.8rem;
-  font-weight: 700;
-  margin-bottom: 10px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #00FFF0;
 }
+
 .result-status {
-  font-size: 2.8rem;
-  font-weight: 800;
-  margin: 20px 0 10px 0;
-  color: #ffcc00;
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin: 1rem 0;
+    color: #ffcc00;
 }
+
 .result-confidence {
-  font-size: 1.2rem;
-  margin-bottom: 10px;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: #E2E8F0;
 }
+
 .result-model {
-  font-size: 1rem;
-  opacity: 0.85;
+    font-size: 0.95rem;
+    opacity: 0.85;
+    color: #CBD5E1;
 }
+
 .result-icon {
-  font-size: 2.5rem;
-  color: #ffcc00;
-  margin-top: 10px;
+    font-size: 2rem;
+    color: #00FFF0;
+    margin-top: 1rem;
 }
-@media (max-width: 900px) {
-    .prediction-form .form-group {
-        flex: 1 1 100%;
-        min-width: 100px;
+
+/* ===== MOBILE RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .prediction-form {
+        grid-template-columns: 1fr;
+        gap: 1rem;
     }
-    .result-display {
-        flex-direction: column;
-        gap: 1em;
+
+    .prediction-form .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .result-box {
+        padding: 1.5rem;
+        margin: 1.5rem auto;
+    }
+
+    .result-title {
+        font-size: 1.3rem;
+    }
+
+    .result-status {
+        font-size: 1.8rem;
+    }
+
+    .prediction-form input,
+    .prediction-form select {
+        font-size: 16px; /* Prevents zoom on iOS */
+    }
+}
+
+@media (max-width: 480px) {
+    .prediction-form {
+        gap: 0.75rem;
+    }
+
+    .result-box {
+        padding: 1rem;
+        margin: 1rem auto;
+    }
+
+    .result-title {
+        font-size: 1.1rem;
+    }
+
+    .result-status {
+        font-size: 1.5rem;
+    }
+
+    .result-confidence {
+        font-size: 1rem;
     }
 }
 </style>

@@ -82,9 +82,9 @@ A sophisticated machine learning-powered web application for detecting network i
 
 ```
 nids-system/
-├── netlify.toml          # Netlify configuration
+├── render.yaml           # Render service configuration
 ├── requirements.txt      # Python dependencies
-├── Procfile             # Heroku process file
+├── Procfile             # Alternative process file
 ├── app/                 # Flask application
 │   ├── templates/       # Jinja2 HTML templates
 │   ├── static/          # CSS, JS, images
@@ -93,9 +93,6 @@ nids-system/
 │   ├── best_model.pkl
 │   ├── preprocessor.pkl
 │   └── metadata.json
-├── netlify/             # Serverless functions
-│   └── functions/
-│       └── predict.py
 ├── utils/               # Database utilities
 └── README.md           # Project documentation
 ```
@@ -119,12 +116,13 @@ nids-system/
 
 ## 🚀 Deployment
 
-### Netlify (Recommended)
-1. **Connect Repository**: Link your GitHub repo to Netlify
-2. **Build Settings**:
-   - Command: `pip install -r requirements.txt && python app/app.py`
-   - Directory: `app/static`
-3. **Environment Variables**: `PYTHON_VERSION = 3.9`
+### Render (Recommended)
+1. **Connect Repository**: Link your GitHub repo to Render
+2. **Service Configuration**:
+   - Runtime: Python 3
+   - Build Command: `pip install -r requirements.txt`
+   - Start Command: `python app/app.py`
+3. **Environment Variables**: `FLASK_ENV = production`
 4. **Deploy**: Auto-deploy on git push
 
 ### Local Development

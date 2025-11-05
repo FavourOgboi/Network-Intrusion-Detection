@@ -1,45 +1,52 @@
-# 🚀 Netlify Deployment Guide for NIDS
+# 🚀 Render Deployment Guide for NIDS
 
-## Why Netlify?
+## Why Render?
 
-Netlify is the **perfect platform** for your Network Intrusion Detection System because:
+Render is the **perfect platform** for your Network Intrusion Detection System because:
 
-- ✅ **Static site hosting** - Perfect for your Flask templates
-- ✅ **Serverless functions** - ML predictions via API
-- ✅ **Free tier** - Generous limits for development
+- ✅ **Native Python/Flask support** - No complex configurations needed
+- ✅ **SQLite database support** - Your database works as-is
+- ✅ **Free tier** - 750 hours/month for development
 - ✅ **Git integration** - Auto-deploy on push
-- ✅ **CDN** - Fast global delivery
+- ✅ **Managed infrastructure** - No server maintenance
 - ✅ **Custom domains** - Professional URLs
 
 ## 🛠️ Prerequisites
 
-1. **Netlify Account**: Sign up at [netlify.com](https://netlify.com)
+1. **Render Account**: Sign up at [render.com](https://render.com)
 2. **GitHub Repository**: Your code pushed to GitHub
 
 ## 🚀 Quick Deployment
 
 ### Step 1: Connect Repository
-1. Go to [netlify.com](https://netlify.com)
-2. Click "New site from Git"
+1. Go to [render.com](https://render.com)
+2. Click "New" → "Web Service"
 3. Connect your GitHub repository
 4. Select the main branch
 
-### Step 2: Build Settings
+### Step 2: Configure Service
 ```
-Build command: pip install -r requirements.txt && python app/app.py
-Publish directory: app/static
+Name: nids-app (or your choice)
+Runtime: Python 3
+Build Command: pip install -r requirements.txt
+Start Command: python app/app.py
 ```
 
 ### Step 3: Environment Variables
-Add in Netlify dashboard:
+Add in Render dashboard:
 ```
-PYTHON_VERSION = 3.11
 FLASK_ENV = production
 ```
 
 ### Step 4: Deploy
-- Netlify will auto-deploy when you push to GitHub
-- Your site will be live at: `https://your-site-name.netlify.app`
+- Render will auto-deploy when you push to GitHub
+- Your site will be live at: `https://your-app-name.onrender.com`
+
+## 📁 Configuration Files
+
+- **`render.yaml`** - Render service configuration
+- **`requirements.txt`** - Python dependencies
+- **`Procfile`** - Alternative process definition
 
 ## ⚠️ **Build Error Solutions:**
 

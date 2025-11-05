@@ -2,7 +2,6 @@ import os
 import pandas as pd
 import json
 from flask import render_template, session, redirect, url_for
-from flask_login import login_required
 from . import model_performance
 
 ARTIFACT_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'artifact')

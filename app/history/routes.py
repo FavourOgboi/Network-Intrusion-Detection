@@ -1,5 +1,4 @@
 from flask import render_template, session, redirect, url_for, make_response
-from flask_login import login_required, current_user
 from . import history
 # from app import db
 from sqlalchemy import desc

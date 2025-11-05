@@ -17,8 +17,8 @@ app.secret_key = 'change-me-to-a-secure-random-value'  # change in production
 # Flask-Login removed - using session-based authentication instead
 
 # === Register Blueprints ===
-from history import history
-from model_performance import model_performance
+from app.history import history
+from app.model_performance import model_performance
 app.register_blueprint(history, url_prefix='/')
 app.register_blueprint(model_performance, url_prefix='/')
 

@@ -1,7 +1,7 @@
 services:
   - type: web
     name: nids-app
-    runtime: python3
+    runtime: python
     buildCommand: pip install -r requirements.txt
     startCommand: python app/app.py
     envVars:
@@ -12,4 +12,6 @@ services:
           type: web
           name: nids-app
           property: port
+      - key: PYTHON_VERSION
+        value: 3.11.9
     plan: free

@@ -54,18 +54,18 @@ FLASK_ENV = production
 **Solution:** Create `runtime.txt` to force Python 3.11:
 ```txt
 # runtime.txt
-python-3.11.4
+python-3.11.9
 ```
 
 **And update requirements.txt:**
 ```txt
 Flask==2.3.3
 Werkzeug==2.3.7
-scikit-learn==1.2.2  # Use 1.2.2 instead of 1.3.0
-pandas==1.5.3        # Use 1.5.3 instead of 2.0.3
-numpy==1.24.3
-xgboost==1.7.6
-joblib==1.3.2
+scikit-learn==1.3.2  # Latest version with Python 3.11 support
+pandas==2.1.4        # Compatible with Python 3.11
+numpy==1.26.4        # Compatible with Python 3.11
+xgboost==2.0.3       # Latest stable version
+joblib==1.4.2        # Compatible version
 python-dotenv==1.0.0
 ```
 

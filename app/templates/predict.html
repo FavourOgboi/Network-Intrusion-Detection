@@ -9,21 +9,21 @@
 </div>
 
 {% set feature_info = {
-    'duration': {'label': 'Duration (seconds)', 'desc': 'Length of the connection in seconds.', 'type': 'slider', 'min': 0, 'max': 1000, 'step': 1, 'default': 10},
-    'src_bytes': {'label': 'Source Bytes', 'desc': 'Bytes sent from source to destination.', 'type': 'slider', 'min': 0, 'max': 100000, 'step': 1, 'default': 500},
-    'dst_bytes': {'label': 'Destination Bytes', 'desc': 'Bytes sent from destination to source.', 'type': 'slider', 'min': 0, 'max': 100000, 'step': 1, 'default': 800},
+    'duration': {'label': 'Duration (seconds)', 'desc': 'Length of the connection in seconds.', 'type': 'slider', 'min': 0, 'max': 1000, 'step': 1, 'default': 0},
+    'src_bytes': {'label': 'Source Bytes', 'desc': 'Bytes sent from source to destination.', 'type': 'slider', 'min': 0, 'max': 100000, 'step': 1, 'default': 0},
+    'dst_bytes': {'label': 'Destination Bytes', 'desc': 'Bytes sent from destination to source.', 'type': 'slider', 'min': 0, 'max': 100000, 'step': 1, 'default': 0},
     'num_failed_logins': {'label': 'Failed Logins', 'desc': 'Number of failed login attempts.', 'type': 'slider', 'min': 0, 'max': 10, 'step': 1, 'default': 0},
-    'logged_in': {'label': 'Logged In', 'desc': 'Was the login successful? (1 = Yes, 0 = No)', 'type': 'checkbox', 'default': 1},
+    'logged_in': {'label': 'Logged In', 'desc': 'Was the login successful? (1 = Yes, 0 = No)', 'type': 'checkbox', 'default': 0},
     'num_compromised': {'label': 'Compromised Conditions', 'desc': 'Number of compromised conditions.', 'type': 'slider', 'min': 0, 'max': 10, 'step': 1, 'default': 0},
     'root_shell': {'label': 'Root Shell', 'desc': 'Root shell obtained? (1 = Yes, 0 = No)', 'type': 'checkbox', 'default': 0},
     'su_attempted': {'label': 'su Attempted', 'desc': 'su root command attempted? (1 = Yes, 0 = No)', 'type': 'checkbox', 'default': 0},
     'num_shells': {'label': 'Number of Shells', 'desc': 'Number of shell prompts.', 'type': 'slider', 'min': 0, 'max': 5, 'step': 1, 'default': 0},
-    'count': {'label': 'Count', 'desc': 'Number of connections to the same host in the past 2 seconds.', 'type': 'slider', 'min': 0, 'max': 100, 'step': 1, 'default': 5},
-    'srv_count': {'label': 'Service Count', 'desc': 'Number of connections to the same service in the past 2 seconds.', 'type': 'slider', 'min': 0, 'max': 100, 'step': 1, 'default': 5},
-    'serror_rate': {'label': 'SYN Error Rate', 'desc': 'Percentage of connections with SYN errors.', 'type': 'slider', 'min': 0, 'max': 1, 'step': 0.01, 'default': 0.0},
+    'count': {'label': 'Count', 'desc': 'Number of connections to the same host in the past 2 seconds.', 'type': 'slider', 'min': 0, 'max': 100, 'step': 1, 'default': 200},
+    'srv_count': {'label': 'Service Count', 'desc': 'Number of connections to the same service in the past 2 seconds.', 'type': 'slider', 'min': 0, 'max': 100, 'step': 1, 'default': 200},
+    'serror_rate': {'label': 'SYN Error Rate', 'desc': 'Percentage of connections with SYN errors.', 'type': 'slider', 'min': 0, 'max': 1, 'step': 0.01, 'default': 1.0},
     'rerror_rate': {'label': 'REJ Error Rate', 'desc': 'Percentage of connections with REJ errors.', 'type': 'slider', 'min': 0, 'max': 1, 'step': 0.01, 'default': 0.0},
     'protocol_type': {'label': 'Protocol Type', 'desc': 'Type of protocol used.', 'type': 'dropdown', 'default': 'tcp'},
-    'service': {'label': 'Service', 'desc': 'Network service on the destination.', 'type': 'dropdown', 'default': 'http'}
+    'service': {'label': 'Service', 'desc': 'Network service on the destination.', 'type': 'dropdown', 'default': 'private'}
 } %}
 
 <form method="POST" class="prediction-form">

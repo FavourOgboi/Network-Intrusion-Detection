@@ -331,7 +331,8 @@ def predict_view():
 
     return render_template('predict.html',
                            selected_features=selected_feature_names,
-                           best_model_info=BEST_MODEL_METRICS)
+                           best_model_info=BEST_MODEL_METRICS,
+                           input_data=None)
 
 
 # @app.route('/performance')  # Removed - now handled by model_performance blueprint

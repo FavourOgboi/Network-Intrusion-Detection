@@ -197,7 +197,7 @@
 @media (max-width: 768px) {
     /* Hide the sidebar off-screen by default on mobile */
     .sidebar {
-        transform: translateX(-250px);
+        transform: translateX(-280px);
         width: 280px; /* Ensure full width when shown */
     }
 
@@ -218,10 +218,16 @@
         display: block;
     }
 
-    /* Ensure navigation items are visible when sidebar is open */
+    /* Ensure navigation items and their text are fully visible when sidebar is open */
     .sidebar.open .nav-link {
         opacity: 1;
         visibility: visible;
+    }
+
+    .sidebar.open .nav-link span:not(.nav-icon) {
+        display: inline !important;
+        opacity: 1 !important;
+        visibility: visible !important;
     }
 }
 /* Toast/Flash Message Styles */

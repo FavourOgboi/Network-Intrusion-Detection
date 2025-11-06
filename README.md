@@ -2,10 +2,11 @@
 
 A sophisticated machine learning-powered web application for detecting network intrusions and security threats in real-time.
 
+[![Live Demo](https://img.shields.io/badge/Live_Demo-🚀-success)](https://web-production-7c370.up.railway.app)
 ![NIDS Dashboard](https://img.shields.io/badge/Status-Complete-success)
 ![Python](https://img.shields.io/badge/Python-3.9+-blue)
 ![Flask](https://img.shields.io/badge/Flask-2.3.3-lightgrey)
-![XGBoost](https://img.shields.io/badge/XGBoost-1.7.6-orange)
+![XGBoost](https://img.shields.io/badge/XGBoost-2.1.1-orange)
 
 ## 🌟 Features
 
@@ -74,27 +75,36 @@ A sophisticated machine learning-powered web application for detecting network i
 - **Chart.js** - Data visualization
 
 ### Deployment
-- **Fly.io** - Container-native deployment platform
-- **Docker** - Containerization
+- **Railway** - Modern app deployment platform (Currently Live)
+- **Gunicorn** - Production WSGI server
 - **Git** - Version control and deployment
 
 ## 📁 Project Structure
 
 ```
 nids-system/
-├── render.yaml           # Render service configuration
-├── requirements.txt      # Python dependencies
-├── Procfile             # Alternative process file
-├── app/                 # Flask application
-│   ├── templates/       # Jinja2 HTML templates
-│   ├── static/          # CSS, JS, images
-│   └── app.py           # Main application
-├── artifact/            # ML model artifacts
+├── wsgi.py              # WSGI entry point for production
+├── requirements.txt     # Python dependencies
+├── Procfile            # Railway deployment configuration
+├── runtime.txt         # Python version specification
+├── app/                # Flask application
+│   ├── templates/      # Jinja2 HTML templates
+│   │   ├── base.html   # Main layout with responsive design
+│   │   ├── dashboard.html
+│   │   ├── login.html
+│   │   ├── about.html
+│   │   └── ...
+│   ├── static/         # CSS, JS, images
+│   │   ├── css/
+│   │   └── images/
+│   └── app.py          # Main Flask application
+├── artifact/           # ML model artifacts
 │   ├── best_model.pkl
 │   ├── preprocessor.pkl
 │   └── metadata.json
-├── utils/               # Database utilities
-└── README.md           # Project documentation
+├── utils/              # Database utilities
+├── data/               # Raw data files
+└── README.md          # Project documentation
 ```
 
 ## 🎯 Key Components
@@ -116,14 +126,17 @@ nids-system/
 
 ## 🚀 Deployment
 
-### Render (Recommended)
-1. **Connect Repository**: Link your GitHub repo to Render
-2. **Service Configuration**:
-   - Runtime: Python 3
-   - Build Command: `pip install -r requirements.txt`
-   - Start Command: `python app/app.py`
-3. **Environment Variables**: `FLASK_ENV = production`
-4. **Deploy**: Auto-deploy on git push
+### Railway (Currently Live)
+The application is currently deployed and live on Railway:
+
+🌐 **Live Demo**: https://web-production-7c370.up.railway.app
+
+**Railway Deployment Setup**:
+1. **Connect Repository**: Link your GitHub repo to Railway
+2. **Automatic Detection**: Railway automatically detects Python apps
+3. **Build Process**: Installs dependencies from `requirements.txt`
+4. **Start Command**: Uses `Procfile` with Gunicorn WSGI server
+5. **Deploy**: Auto-deploy on git push
 
 ### Local Development
 ```bash
@@ -131,6 +144,11 @@ pip install -r requirements.txt
 python app/app.py
 # Visit: http://localhost:5000
 ```
+
+### Alternative Platforms
+- **Render**: Similar setup with Python runtime
+- **Fly.io**: Container-native deployment
+- **Heroku**: Traditional PaaS deployment
 
 ## 📈 Usage
 

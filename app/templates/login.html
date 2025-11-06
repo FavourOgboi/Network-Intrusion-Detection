@@ -285,5 +285,28 @@ body.login-bg { background: #0f172a; }
     background: #e0f2fe;
     color: #0369a1;
 }
+
+/* --- Mobile Responsiveness for Login Page (768px and below) --- */
+@media (max-width: 768px) {
+    .login-split {
+        flex-direction: column; /* Stack columns vertically */
+    }
+
+    .login-left {
+        display: none; /* Hide the background animation/marketing section on small screens */
+    }
+
+    .login-right {
+        flex: none;
+        width: 100%;
+        padding: 2rem 1rem; /* Add padding to prevent the card from touching edges */
+    }
+
+    .auth-card {
+        max-width: 100%;
+        margin: 0;
+        box-shadow: none; /* Less aggressive shadow on full-width mobile card */
+    }
+}
 </style>
 {% endblock %}

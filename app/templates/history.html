@@ -38,4 +38,36 @@
         <p>You haven't made any predictions yet. Start by making your first prediction on the <a href="{{ url_for('predict_view') }}">Predict</a> page.</p>
     {% endif %}
 </div>
+
+<style>
+/* History Specific Styles */
+.history-section {
+    padding-top: 1rem;
+}
+
+.table-striped {
+    width: 100%;
+    border-collapse: collapse;
+}
+.table-striped thead tr {
+    background-color: #f1f5f9;
+}
+.table-striped th, .table-striped td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+/* Mobile Responsiveness for History Table */
+@media (max-width: 768px) {
+    /* Make the table container horizontally scrollable */
+    .history-section {
+        overflow-x: auto;
+    }
+
+    .table-striped {
+        min-width: 600px; /* Ensure table is wide enough to scroll */
+    }
+}
+</style>
 {% endblock %}

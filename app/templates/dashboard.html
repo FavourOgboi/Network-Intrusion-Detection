@@ -8,8 +8,6 @@
     <p>Welcome back, {{ current_user.username }}!</p>
 </div>
 
-{# Model Insight section removed as requested #}
-
 <div class="stats-grid">
     <div class="stat-card">
         <div class="stat-icon">📊</div>
@@ -49,8 +47,95 @@
         </div>
     </div>
 </div>
+
+<style>
+/* Dashboard Specific Styles */
+.page-header {
+    margin-bottom: 2rem;
+    color: #1E293B; 
+}
+.dashboard-charts {
+    /* Use the same dark background as the stat cards for visual cohesion */
+    background-color: #1E293B; 
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+}
+.dashboard-charts h2 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    color: #F8FAFC; /* Light text for dark background */
+}
+
+/* Stat Grid Styling */
+.stats-grid {
+    display: grid;
+    /* Allows cards to auto-fit, ensuring at least 180px width */
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); 
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+/* Stat Card Dark Theme Styling */
+.stat-card {
+    background: #1E293B; 
+    color: #F8FAFC; 
+    padding: 1.5rem;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(56, 189, 248, 0.3); 
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px); 
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    border-color: #38bdf8;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-top: 0.5rem;
+    margin-bottom: 0.25rem;
+    color: #38bdf8; /* Highlight color */
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: #94A3B8;
+}
+
+/* --- Mobile Responsiveness (768px and below) --- */
+@media (max-width: 600px) {
+    /* Stack stat cards vertically on very small screens */
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    /* Stack charts vertically and ensure full width */
+    .dashboard-charts > div {
+        flex-direction: column;
+        display: block !important; 
+        gap: 0 !important; 
+    }
+    
+    .dashboard-charts > div > div {
+        min-width: 100% !important; /* Force chart containers to full width */
+        margin-bottom: 1.5rem; 
+    }
+}
+</style>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+    // Set global chart defaults for a dark theme (applies to all charts)
+    Chart.defaults.color = '#E2E8F0'; // Light font color
+    Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.1)'; // Subtle grid lines
+
     // Chart 1: Threat vs Normal Distribution (Bar Chart)
     var ctx1 = document.getElementById('chart1').getContext('2d');
     var threatVsNormal = {{ threat_vs_normal|tojson }};
@@ -66,10 +151,27 @@
         },
         options: {
             responsive: true,
+            maintainAspectRatio: true,
             plugins: {
                 title: {
                     display: true,
-                    text: 'Threat vs Normal Predictions'
+                    text: 'Threat vs Normal Predictions',
+                    color: '#F8FAFC' 
+                },
+                legend: {
+                    labels: {
+                        color: '#F8FAFC'
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                    ticks: { color: '#F8FAFC' }
+                },
+                x: {
+                    grid: { display: false },
+                    ticks: { color: '#F8FAFC' }
                 }
             }
         }
@@ -92,10 +194,27 @@
         },
         options: {
             responsive: true,
+            maintainAspectRatio: true,
             plugins: {
                 title: {
                     display: true,
-                    text: 'Threats Over Time'
+                    text: 'Threats Over Time',
+                    color: '#F8FAFC'
+                },
+                legend: {
+                    labels: {
+                        color: '#F8FAFC'
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                    ticks: { color: '#F8FAFC' }
+                },
+                x: {
+                    grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                    ticks: { color: '#F8FAFC' }
                 }
             }
         }
